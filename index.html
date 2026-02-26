@@ -8,11 +8,11 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome Icons (minimal version for speed) -->
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* RESET & BASE - Optimized for mobile */
+        /* RESET & BASE */
         * {
             margin: 0;
             padding: 0;
@@ -31,7 +31,7 @@
             position: relative;
         }
 
-        /* APP CONTAINER - Perfect mobile frame */
+        /* APP CONTAINER */
         .app-container {
             width: 100%;
             max-width: 390px;
@@ -44,7 +44,7 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(255, 215, 0, 0.1);
         }
 
-        /* ANIMATED BACKGROUND - Performance optimized */
+        /* ANIMATED BACKGROUND */
         .bg-orb {
             position: absolute;
             width: 300px;
@@ -86,7 +86,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            padding: 16px 16px 90px 16px;
+            padding: 16px 16px 120px 16px;
             overflow-y: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
@@ -96,15 +96,169 @@
             display: none;
         }
 
-        /* LOGO with pulse animation */
+        /* HEADER WITH HAMBURGER */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 12px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo-small {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+
+        .hamburger-btn {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFD700;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .hamburger-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        /* SIDE MENU OVERLAY */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 280px;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-left: 2px solid rgba(255, 215, 0, 0.3);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            padding: 30px 20px;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-overlay.active .side-menu {
+            right: 0;
+        }
+
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFD700;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .menu-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: #FFD700;
+            text-align: center;
+            margin: 40px 0 30px 0;
+        }
+
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .menu-item i {
+            color: #FFD700;
+            font-size: 20px;
+            width: 24px;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateX(-5px);
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: rgba(255, 215, 0, 0.2);
+            margin: 20px 0;
+        }
+
+        .menu-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        /* LOGO (main) */
         .logo-container {
             text-align: center;
-            padding: 12px 0 8px 0;
+            padding: 4px 0 12px 0;
         }
 
         .logo {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 48px;
+            font-size: 42px;
             font-weight: 800;
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 70%, #FFD700 100%);
             -webkit-background-clip: text;
@@ -117,14 +271,8 @@
         }
 
         @keyframes logoPulse {
-            0%, 100% { 
-                text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-                transform: scale(1);
-            }
-            50% { 
-                text-shadow: 0 0 40px rgba(255, 215, 0, 0.7);
-                transform: scale(1.02);
-            }
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.3); transform: scale(1); }
+            50% { text-shadow: 0 0 40px rgba(255, 215, 0, 0.7); transform: scale(1.02); }
         }
 
         .logo-sub {
@@ -134,7 +282,7 @@
             margin-top: 2px;
         }
 
-        /* GLASS CARD - Reusable component */
+        /* GLASS CARD */
         .glass-card {
             background: rgba(20, 20, 20, 0.7);
             backdrop-filter: blur(20px);
@@ -191,18 +339,9 @@
             margin-bottom: 6px;
             position: relative;
             text-shadow: 0 0 20px #FFD700;
-            transition: transform 0.2s ease;
         }
 
-        .price-change {
-            font-size: 13px;
-            padding: 4px 12px;
-            border-radius: 40px;
-            display: inline-block;
-            position: relative;
-        }
-
-        /* COUNTDOWN TIMER */
+        /* COUNTDOWN */
         .countdown-container {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 28px;
@@ -246,7 +385,6 @@
             font-size: 10px;
             color: rgba(255, 255, 255, 0.6);
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         /* SECTIONS */
@@ -267,7 +405,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* STATS SECTION */
+        /* STATS */
         .stats-grid {
             display: flex;
             flex-direction: column;
@@ -282,12 +420,6 @@
             background: rgba(255, 255, 255, 0.03);
             border-radius: 24px;
             border: 1px solid rgba(255, 215, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .stat-row:hover {
-            border-color: rgba(255, 215, 0, 0.3);
-            background: rgba(255, 215, 0, 0.05);
         }
 
         .stat-label {
@@ -308,39 +440,65 @@
             font-weight: 700;
             color: #FFD700;
             font-family: 'Space Grotesk', monospace;
-            transition: all 0.2s;
         }
 
-        /* WHITEPAPER */
-        .whitepaper-content {
+        /* ABOUT & ROADMAP SECTIONS */
+        .about-card, .roadmap-card {
             background: rgba(20, 20, 20, 0.6);
             backdrop-filter: blur(10px);
             border-radius: 32px;
             padding: 24px;
+            margin-bottom: 16px;
             border: 1px solid rgba(255, 215, 0, 0.2);
         }
 
-        .whitepaper-title {
-            font-size: 28px;
+        .section-title {
+            font-size: 24px;
             font-weight: 700;
             color: #FFD700;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             font-family: 'Space Grotesk', sans-serif;
         }
 
-        .whitepaper-text {
+        .about-text {
             color: rgba(255, 255, 255, 0.9);
             line-height: 1.7;
-            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        .highlight-text {
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        .roadmap-phase {
+            margin-bottom: 20px;
+            padding: 16px;
+            background: rgba(255, 215, 0, 0.03);
+            border-radius: 20px;
+            border-left: 4px solid #FFD700;
+        }
+
+        .phase-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFD700;
+            margin-bottom: 8px;
+        }
+
+        .phase-desc {
+            color: rgba(255, 255, 255, 0.8);
             font-size: 14px;
         }
 
-        .vision-box {
-            background: rgba(255, 215, 0, 0.05);
-            padding: 20px;
-            border-radius: 24px;
-            margin: 16px 0;
-            border-left: 4px solid #FFD700;
+        .phase-status {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 40px;
+            font-size: 12px;
+            color: #FFD700;
+            margin-top: 8px;
         }
 
         /* JOIN FORM */
@@ -363,12 +521,6 @@
             margin-bottom: 8px;
         }
 
-        .join-sub {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-            margin-bottom: 24px;
-        }
-
         .input-field {
             width: 100%;
             padding: 18px 20px;
@@ -378,7 +530,6 @@
             color: white;
             font-size: 15px;
             margin-bottom: 16px;
-            transition: all 0.3s;
         }
 
         .input-field:focus {
@@ -388,7 +539,6 @@
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
         }
 
-        /* JOIN BUTTON with pulse animation */
         .action-btn {
             width: 100%;
             padding: 18px 20px;
@@ -405,19 +555,11 @@
             justify-content: center;
             gap: 10px;
             animation: btnPulse 2s ease-in-out infinite;
-            position: relative;
-            overflow: hidden;
         }
 
         @keyframes btnPulse {
-            0%, 100% { 
-                box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-                transform: scale(1);
-            }
-            50% { 
-                box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
-                transform: scale(1.02);
-            }
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); transform: scale(1); }
+            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.6); transform: scale(1.02); }
         }
 
         .action-btn:active {
@@ -425,11 +567,6 @@
             animation: none;
         }
 
-        .action-btn i {
-            font-size: 20px;
-        }
-
-        /* HOME JOIN BUTTON */
         .home-join-btn {
             width: 100%;
             padding: 18px;
@@ -441,7 +578,6 @@
             font-weight: 700;
             margin: 8px 0 16px 0;
             cursor: pointer;
-            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -449,7 +585,6 @@
             animation: btnPulse 2s ease-in-out infinite;
         }
 
-        /* MESSAGE BOX */
         .message-box {
             margin-top: 20px;
             padding: 16px;
@@ -457,7 +592,6 @@
             font-size: 14px;
             display: none;
             text-align: center;
-            font-weight: 500;
         }
 
         .message-box.show {
@@ -471,15 +605,43 @@
             color: #FFD700;
         }
 
-        .message-box.error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
-            color: #ef4444;
-        }
-
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* QUICK STATS */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .quick-stat-card {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+        }
+
+        .quick-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFD700;
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        /* FOOTER */
+        .app-footer {
+            text-align: center;
+            padding: 20px 0 10px 0;
+            margin-top: 10px;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
         }
 
         /* BOTTOM NAVIGATION */
@@ -490,7 +652,6 @@
             right: 0;
             background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 215, 0, 0.2);
             display: flex;
             justify-content: space-around;
@@ -508,7 +669,6 @@
             cursor: pointer;
             padding: 8px 16px;
             border-radius: 40px;
-            transition: all 0.2s;
             border: none;
             background: transparent;
             color: rgba(255, 255, 255, 0.5);
@@ -517,7 +677,6 @@
 
         .nav-btn i {
             font-size: 22px;
-            transition: all 0.2s;
         }
 
         .nav-btn.active {
@@ -528,45 +687,6 @@
             text-shadow: 0 0 15px #FFD700;
             transform: translateY(-2px);
         }
-
-        /* QUICK STATS CARDS */
-        .quick-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 8px;
-        }
-
-        .quick-stat-card {
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 16px;
-            text-align: center;
-            border: 1px solid rgba(255, 215, 0, 0.15);
-        }
-
-        .quick-stat-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 6px;
-        }
-
-        .quick-stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #FFD700;
-            font-family: 'Space Grotesk', monospace;
-        }
-
-        /* UTILITIES */
-        .text-gold {
-            color: #FFD700;
-        }
-        
-        .mb-3 {
-            margin-bottom: 12px;
-        }
     </style>
 </head>
 <body>
@@ -575,12 +695,64 @@
         <div class="bg-orb"></div>
         <div class="bg-orb-2"></div>
 
+        <!-- Side Menu Overlay -->
+        <div class="menu-overlay" id="menuOverlay">
+            <div class="side-menu">
+                <div class="menu-close" id="closeMenu">
+                    <i class="fas fa-times"></i>
+                </div>
+                <div class="menu-logo">OXYX</div>
+                <div class="menu-items">
+                    <a href="#" class="menu-item" onclick="switchToSection('about'); closeMenu();">
+                        <i class="fas fa-info-circle"></i>
+                        About Us
+                    </a>
+                    <a href="#" class="menu-item" onclick="switchToSection('roadmap'); closeMenu();">
+                        <i class="fas fa-road"></i>
+                        Roadmap
+                    </a>
+                    <a href="#" class="menu-item" onclick="switchToSection('whitepaper'); closeMenu();">
+                        <i class="fas fa-file-alt"></i>
+                        Whitepaper
+                    </a>
+                    <div class="menu-divider"></div>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-envelope"></i>
+                        Contact
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="fab fa-twitter"></i>
+                        Twitter / X
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="fab fa-telegram"></i>
+                        Telegram
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="fab fa-discord"></i>
+                        Discord
+                    </a>
+                    <div class="menu-divider"></div>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-scale-balanced"></i>
+                        Disclaimer
+                    </a>
+                </div>
+                <div class="menu-footer">
+                    © 2024 OXYX Finance<br>
+                    All Rights Reserved
+                </div>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <div class="content-wrapper">
-            <!-- Logo -->
-            <div class="logo-container">
-                <div class="logo">OXYX</div>
-                <div class="logo-sub">$OXY</div>
+            <!-- Header with Hamburger -->
+            <div class="app-header">
+                <div class="logo-small">OXYX</div>
+                <div class="hamburger-btn" id="hamburgerBtn">
+                    <i class="fas fa-bars"></i>
+                </div>
             </div>
 
             <!-- HOME SECTION -->
@@ -589,7 +761,6 @@
                 <div class="price-card">
                     <div class="price-label">$OXY LIVE</div>
                     <div class="price-value" id="livePrice">$0.0012</div>
-                    <div class="price-change" id="priceChange">+12.5%</div>
                 </div>
 
                 <!-- Countdown Timer -->
@@ -624,11 +795,11 @@
                 <!-- Quick Stats -->
                 <div class="quick-stats">
                     <div class="quick-stat-card">
-                        <div class="quick-stat-label">Holders</div>
+                        <div style="font-size:12px; color:rgba(255,255,255,0.5);">Holders</div>
                         <div class="quick-stat-value" id="homeHolders">1,234</div>
                     </div>
                     <div class="quick-stat-card">
-                        <div class="quick-stat-label">Progress</div>
+                        <div style="font-size:12px; color:rgba(255,255,255,0.5);">Progress</div>
                         <div class="quick-stat-value" id="homeProgress">65%</div>
                     </div>
                 </div>
@@ -637,10 +808,9 @@
             <!-- STATS SECTION -->
             <div id="statsSection" class="section">
                 <div class="glass-card">
-                    <h3 style="color: #FFD700; margin-bottom: 20px; font-size: 24px;">
-                        <i class="fas fa-chart-line" style="margin-right: 8px;"></i>Live Statistics
+                    <h3 style="color:#FFD700; margin-bottom:20px; font-size:24px;">
+                        <i class="fas fa-chart-line" style="margin-right:8px;"></i>Live Statistics
                     </h3>
-                    
                     <div class="stats-grid">
                         <div class="stat-row">
                             <span class="stat-label"><i class="fas fa-users"></i> Total Holders</span>
@@ -663,41 +833,58 @@
                             <span class="stat-value" id="statsLiquidity">$2.1M</span>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div style="margin-top: 20px; padding: 16px; background: rgba(255,215,0,0.05); border-radius: 20px; text-align: center; border: 1px solid rgba(255,215,0,0.2);">
-                        <span style="color: #FFD700; font-weight: 600;">🔥 2% Burn • 💎 3% Rewards</span>
+            <!-- ABOUT SECTION -->
+            <div id="aboutSection" class="section">
+                <div class="about-card">
+                    <div class="section-title">About OXYX</div>
+                    <p class="about-text">
+                        <span class="highlight-text">OXYX Finance</span> is revolutionizing the cryptocurrency landscape by creating a seamless bridge between <span class="highlight-text">USDT</span> and local liquidity in the Kurdistan region and beyond.
+                    </p>
+                    <p class="about-text" style="margin-top:16px;">
+                        Our mission is to provide fast, secure, and accessible liquidity solutions that empower communities and drive financial inclusion. We're building the infrastructure for the future of cross-border transactions.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ROADMAP SECTION -->
+            <div id="roadmapSection" class="section">
+                <div class="roadmap-card">
+                    <div class="section-title">Roadmap</div>
+                    
+                    <div class="roadmap-phase">
+                        <div class="phase-title">Phase 1: Pre-launch</div>
+                        <div class="phase-desc">Community building, smart contract audit, website launch, and early adopter program.</div>
+                        <div class="phase-status">✓ Completed</div>
+                    </div>
+
+                    <div class="roadmap-phase">
+                        <div class="phase-title">Phase 2: Token Generation</div>
+                        <div class="phase-desc">Token creation, initial DEX offering, liquidity pool establishment, and staking rewards launch.</div>
+                        <div class="phase-status">🔄 In Progress</div>
+                    </div>
+
+                    <div class="roadmap-phase">
+                        <div class="phase-title">Phase 3: Global Listing</div>
+                        <div class="phase-desc">CEX listings, cross-chain expansion, mobile app launch, and strategic partnerships.</div>
+                        <div class="phase-status">🔜 Q1 2025</div>
                     </div>
                 </div>
             </div>
 
             <!-- WHITEPAPER SECTION -->
             <div id="whitepaperSection" class="section">
-                <div class="whitepaper-content">
-                    <div class="whitepaper-title">📜 Whitepaper</div>
-                    
-                    <div class="vision-box">
-                        <p style="color: #FFD700; font-weight: 600; margin-bottom: 8px; font-size: 16px;">Our Vision</p>
-                        <p class="whitepaper-text" style="font-size: 16px; font-weight: 500;">"The Future of USDT Liquidity in Kurdistan & Beyond"</p>
+                <div class="about-card">
+                    <div class="section-title">Whitepaper</div>
+                    <div class="vision-box" style="background:rgba(255,215,0,0.05); padding:20px; border-radius:24px; border-left:4px solid #FFD700;">
+                        <p style="color:#FFD700; font-weight:600; margin-bottom:8px;">Our Vision</p>
+                        <p class="about-text">"The Future of USDT Liquidity in Kurdistan & Beyond"</p>
                     </div>
-                    
-                    <p class="whitepaper-text">OXYX Finance is revolutionizing cross-border transactions by creating a seamless bridge between traditional finance and decentralized ecosystems, with a special focus on the Kurdistan region.</p>
-                    
-                    <div style="background: rgba(255,215,0,0.03); padding: 20px; border-radius: 24px; margin: 16px 0;">
-                        <p style="color: #FFD700; margin-bottom: 12px; font-weight: 600;">Key Features</p>
-                        <p class="whitepaper-text">✦ Revolutionary liquidity protocol<br>
-                        ✦ Smart contract secured & audited<br>
-                        ✦ 5-year locked liquidity pool<br>
-                        ✦ Community-first governance<br>
-                        ✦ Cross-chain compatibility</p>
-                    </div>
-                    
-                    <div style="background: rgba(255,215,0,0.03); padding: 20px; border-radius: 24px;">
-                        <p style="color: #FFD700; margin-bottom: 12px; font-weight: 600;">Tokenomics</p>
-                        <p class="whitepaper-text">Total Supply: 1,000,000,000 $OXY<br>
-                        Burn Rate: 2% per transaction<br>
-                        Rewards: 3% redistribution<br>
-                        Initial Liquidity: Locked 5 years</p>
-                    </div>
+                    <p class="about-text" style="margin-top:20px;">
+                        OXYX Finance utilizes advanced smart contract technology to ensure transparent, secure, and efficient liquidity management. Our protocol is designed for scalability and long-term sustainability.
+                    </p>
                 </div>
             </div>
 
@@ -705,21 +892,18 @@
             <div id="joinSection" class="section">
                 <div class="join-card">
                     <div class="join-title">Early Access</div>
-                    <div class="join-sub">Join the top 1% of OXY adopters</div>
-                    
                     <input type="text" class="input-field" id="walletInput" placeholder="Enter wallet address (0x...)">
-                    
                     <button class="action-btn" id="claimBtn">
                         <i class="fas fa-gem"></i>
                         Secure Early Access
                     </button>
-                    
                     <div id="messageBox" class="message-box"></div>
-                    
-                    <div style="margin-top: 16px; font-size: 12px; color: rgba(255,215,0,0.4);">
-                        ⚡ Limited to first 5,000 wallets
-                    </div>
                 </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="app-footer">
+                © 2024 OXYX Finance. All Rights Reserved.
             </div>
         </div>
 
@@ -733,9 +917,13 @@
                 <i class="fas fa-chart-bar"></i>
                 <span>Stats</span>
             </button>
-            <button class="nav-btn" data-section="whitepaper">
-                <i class="fas fa-file-alt"></i>
-                <span>Paper</span>
+            <button class="nav-btn" data-section="about">
+                <i class="fas fa-info-circle"></i>
+                <span>About</span>
+            </button>
+            <button class="nav-btn" data-section="roadmap">
+                <i class="fas fa-road"></i>
+                <span>Roadmap</span>
             </button>
             <button class="nav-btn" data-section="join">
                 <i class="fas fa-user-plus"></i>
@@ -750,13 +938,19 @@
         const sections = {
             home: document.getElementById('homeSection'),
             stats: document.getElementById('statsSection'),
+            about: document.getElementById('aboutSection'),
+            roadmap: document.getElementById('roadmapSection'),
             whitepaper: document.getElementById('whitepaperSection'),
             join: document.getElementById('joinSection')
         };
 
+        // Menu Elements
+        const menuOverlay = document.getElementById('menuOverlay');
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const closeMenu = document.getElementById('closeMenu');
+
         // Live Data Elements
         const livePriceEl = document.getElementById('livePrice');
-        const priceChangeEl = document.getElementById('priceChange');
         const homeHolders = document.getElementById('homeHolders');
         const homeProgress = document.getElementById('homeProgress');
         const statsHolders = document.getElementById('statsHolders');
@@ -783,175 +977,33 @@
         let liquidity = 2.1;
         let progress = 65;
 
-        // Set countdown target (20 days from now)
+        // Set countdown target
         const countdownTarget = new Date();
         countdownTarget.setDate(countdownTarget.getDate() + 20);
         countdownTarget.setHours(0, 0, 0, 0);
 
+        // Menu Functions
+        function openMenu() {
+            menuOverlay.classList.add('active');
+        }
+
+        function closeMenuFunc() {
+            menuOverlay.classList.remove('active');
+        }
+
+        hamburgerBtn.addEventListener('click', openMenu);
+        closeMenu.addEventListener('click', closeMenuFunc);
+        menuOverlay.addEventListener('click', (e) => {
+            if (e.target === menuOverlay) {
+                closeMenuFunc();
+            }
+        });
+
         // Navigation Function
         function switchSection(sectionId) {
             Object.values(sections).forEach(section => {
-                section.classList.remove('active');
+                if (section) section.classList.remove('active');
             });
             
             if (sections[sectionId]) {
-                sections[sectionId].classList.add('active');
-            }
-            
-            navBtns.forEach(btn => {
-                const btnSection = btn.getAttribute('data-section');
-                if (btnSection === sectionId) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-        }
-
-        // Helper function for Join button
-        window.switchToJoin = function() {
-            switchSection('join');
-        };
-
-        // Add click handlers to nav buttons
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const sectionId = btn.getAttribute('data-section');
-                switchSection(sectionId);
-            });
-        });
-
-        // Update Countdown
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const target = countdownTarget.getTime();
-            const distance = target - now;
-
-            if (distance < 0) {
-                daysEl.textContent = '00';
-                hoursEl.textContent = '00';
-                minutesEl.textContent = '00';
-                secondsEl.textContent = '00';
-                return;
-            }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            daysEl.textContent = days.toString().padStart(2, '0');
-            hoursEl.textContent = hours.toString().padStart(2, '0');
-            minutesEl.textContent = minutes.toString().padStart(2, '0');
-            secondsEl.textContent = seconds.toString().padStart(2, '0');
-        }
-
-        // Live Data Simulation
-        function updateLiveData() {
-            // Update price
-            const change = (Math.random() * 0.0003) - 0.0001;
-            currentPrice += change;
-            if (currentPrice < 0.0008) currentPrice = 0.0008;
-            if (currentPrice > 0.0025) currentPrice = 0.0025;
-            
-            livePriceEl.textContent = '$' + currentPrice.toFixed(4);
-            
-            // Update price change
-            const changePercent = ((change / currentPrice) * 100).toFixed(1);
-            const isPositive = change >= 0;
-            priceChangeEl.textContent = (isPositive ? '+' : '') + changePercent + '%';
-            priceChangeEl.style.color = isPositive ? '#10b981' : '#ef4444';
-            priceChangeEl.style.background = isPositive ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)';
-            
-            // Update holders (steady growth)
-            const holderIncrease = Math.floor(Math.random() * 4) + 1;
-            holders += holderIncrease;
-            const holderStr = holders.toLocaleString();
-            homeHolders.textContent = holderStr;
-            statsHolders.textContent = holderStr;
-            
-            // Update burned tokens (slowly increasing)
-            burned += (Math.random() * 0.1);
-            statsBurned.textContent = burned.toFixed(1) + 'M';
-            
-            // Update market cap (follows price)
-            marketCap = 4.2 * (currentPrice / 0.0012);
-            statsMarketCap.textContent = '$' + marketCap.toFixed(1) + 'M';
-            
-            // Update liquidity
-            liquidity += (Math.random() * 0.05);
-            statsLiquidity.textContent = '$' + liquidity.toFixed(1) + 'M';
-            
-            // Update progress
-            if (progress < 100) {
-                progress += 0.2;
-                if (progress > 100) progress = 100;
-                homeProgress.textContent = Math.floor(progress) + '%';
-            }
-
-            // Add flash effect to updating numbers
-            const flashElements = [statsHolders, statsBurned, statsMarketCap];
-            flashElements.forEach(el => {
-                if (el) {
-                    el.style.transform = 'scale(1.1)';
-                    setTimeout(() => {
-                        el.style.transform = 'scale(1)';
-                    }, 150);
-                }
-            });
-        }
-
-        // Run updates
-        setInterval(updateCountdown, 1000);
-        setInterval(updateLiveData, 3000);
-
-        // Join Form Handler
-        claimBtn.addEventListener('click', () => {
-            const wallet = walletInput.value.trim();
-            
-            messageBox.classList.remove('show', 'success', 'error');
-            
-            if (!wallet) {
-                messageBox.textContent = '❌ Please enter your wallet address';
-                messageBox.classList.add('show', 'error');
-                return;
-            }
-            
-            if (!wallet.startsWith('0x') || wallet.length !== 42) {
-                messageBox.textContent = '❌ Invalid Ethereum address (must start with 0x and be 42 characters)';
-                messageBox.classList.add('show', 'error');
-                return;
-            }
-            
-            // Success message
-            messageBox.innerHTML = '✅ <strong>Address Secured!</strong><br>You are in the top 1% of OXY early adopters!';
-            messageBox.classList.add('show', 'success');
-            walletInput.value = '';
-            
-            // Add to holders count
-            holders += 1;
-            homeHolders.textContent = holders.toLocaleString();
-            statsHolders.textContent = holders.toLocaleString();
-            
-            // Flash effect on success
-            messageBox.style.transform = 'scale(1.02)';
-            setTimeout(() => {
-                messageBox.style.transform = 'scale(1)';
-            }, 200);
-        });
-
-        // Enter key support
-        walletInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                claimBtn.click();
-            }
-        });
-
-        // Initialize
-        window.addEventListener('load', () => {
-            switchSection('home');
-            updateCountdown();
-        });
-    </script>
-</body>
-</html>
+                sections[
