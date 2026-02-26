@@ -3,319 +3,802 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>OXYX Finance • The Future of Liquidity</title>
+    <title>OXYX • Premium Interface</title>
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== RESET - NO MOVEMENT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* NO SCROLLING */
+            position: fixed; /* COMPLETE STABILITY */
+            background-color: #080808;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* ===== MAIN APP CONTAINER ===== */
+        .app-container {
+            width: 100%;
+            max-width: 390px;
+            height: 100vh;
+            max-height: 844px;
+            background: #080808;
+            position: relative;
+            overflow: hidden;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 
+                        0 0 0 1px rgba(255, 215, 0, 0.15);
+        }
+
+        /* ===== LUXURY BACKGROUND ===== */
+        .bg-layers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.08) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.05) 0%, transparent 60%);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* ===== CONTENT WRAPPER ===== */
+        .content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 20px 100px 20px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD700 0%, #FFD700 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            font-size: 14px;
+            margin-left: 4px;
+            opacity: 0.5;
+        }
+
+        .gold-badge {
+            padding: 8px 16px;
+            background: rgba(255, 215, 0, 0.08);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 60px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #FFD700;
+        }
+
+        /* ===== SECTIONS - OPACITY TRANSITIONS ===== */
+        .section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 24px 20px 100px 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .section::-webkit-scrollbar {
+            display: none;
+        }
+
+        .section.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ===== HOME SECTION ===== */
+        .price-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 32px;
+            padding: 30px 20px;
+            margin: 20px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .price-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .price-value {
+            font-size: 64px;
+            font-weight: 800;
+            color: #FFD700;
+            font-family: 'Space Grotesk', monospace;
+            line-height: 1;
+            margin-bottom: 8px;
+            position: relative;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .price-change {
+            font-size: 14px;
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .stat-block {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 24px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-block .label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 8px;
+        }
+
+        .stat-block .number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFD700;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* ===== STATS SECTION ===== */
+        .stats-container {
+            margin-top: 20px;
+        }
+
+        .stats-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 32px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .stats-row:last-child {
+            border-bottom: none;
+        }
+
+        .stats-row .label {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stats-row .label i {
+            color: #FFD700;
+            width: 24px;
+        }
+
+        .stats-row .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFD700;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* ===== ROADMAP SECTION ===== */
+        .roadmap-container {
+            margin-top: 20px;
+        }
+
+        .roadmap-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #FFD700;
+            box-shadow: 0 0 15px #FFD700;
+        }
+
+        .roadmap-phase {
+            font-size: 12px;
+            color: #FFD700;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .roadmap-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .roadmap-desc {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 12px;
+        }
+
+        .roadmap-status {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 40px;
+            font-size: 11px;
+            color: #FFD700;
+        }
+
+        /* ===== JOIN SECTION ===== */
+        .join-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 40px;
+            padding: 40px 24px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .join-title {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD700, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .join-sub {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 60px;
+            color: white;
+            font-size: 15px;
+            margin-bottom: 16px;
+            transition: all 0.3s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #FFD700;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .join-btn {
+            width: 100%;
+            padding: 18px 20px;
+            background: #FFD700;
+            border: none;
+            border-radius: 60px;
+            color: #080808;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .join-btn:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        .message-box {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 40px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .message-box.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message-box.success {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid #FFD700;
+            color: #FFD700;
+        }
+
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(8, 8, 8, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0 24px 0;
+            z-index: 100;
+            border-radius: 30px 30px 0 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 8px 16px;
+            border-radius: 40px;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            transition: all 0.2s;
+        }
+
+        .nav-item.active {
+            color: #FFD700;
+        }
+
+        .nav-item.active i {
+            transform: translateY(-2px);
+            filter: drop-shadow(0 0 8px #FFD700);
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #FFD700;
+            margin-bottom: 20px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hide scrollbar but allow scrolling */
+        .hide-scrollbar {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-grid"></div>
-    <div class="bg-orb"></div>
-    <div class="bg-orb-2"></div>
-    
-    <!-- Floating Glass Sidebar -->
-    <div class="sidebar-overlay" id="sidebarOverlay">
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo">OXYX</div>
-                <button class="sidebar-close" id="closeSidebar">
-                    <i class="fas fa-times"></i>
-                </button>
+    <div class="app-container">
+        <!-- Background Layers -->
+        <div class="bg-layers">
+            <div class="bg-gradient"></div>
+            <div class="bg-grid"></div>
+        </div>
+
+        <!-- SECTIONS -->
+        
+        <!-- HOME SECTION -->
+        <div id="homeSection" class="section active hide-scrollbar">
+            <div class="header">
+                <div class="logo">OXYX<span>$</span></div>
+                <div class="gold-badge">PRE-LAUNCH</div>
             </div>
-            <nav class="sidebar-nav">
-                <a href="#home" class="sidebar-link" data-section="home">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="#tokenomics" class="sidebar-link" data-section="tokenomics">
-                    <i class="fas fa-chart-pie"></i>
-                    <span>Tokenomics</span>
-                </a>
-                <a href="#roadmap" class="sidebar-link" data-section="roadmap">
-                    <i class="fas fa-road"></i>
-                    <span>Roadmap</span>
-                </a>
-                <a href="#whitepaper" class="sidebar-link" data-section="whitepaper">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Whitepaper</span>
-                </a>
-            </nav>
-            <div class="sidebar-footer">
-                <div class="powered-badge">
-                    <i class="fas fa-cube"></i>
-                    Powered by Blockchain
+
+            <div class="price-card">
+                <div class="price-label">$OXY LIVE</div>
+                <div class="price-value" id="livePrice">$0.0012</div>
+                <div class="price-change" id="priceChange">+12.5%</div>
+            </div>
+
+            <div class="quick-stats">
+                <div class="stat-block">
+                    <div class="label">Holders</div>
+                    <div class="number" id="holderCount">1,234</div>
+                </div>
+                <div class="stat-block">
+                    <div class="label">Progress</div>
+                    <div class="number" id="progressCount">65%</div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- HOME SECTION -->
-        <section id="home" class="section active">
-            <div class="container">
-                <div class="hero-content">
-                    <span class="chip">🚀 PRE-LAUNCH PHASE</span>
-                    <h1 class="hero-title">
-                        The Future of <span class="gradient-text">USDT Liquidity</span>
-                    </h1>
-                    <p class="hero-subtitle">
-                        Bridging traditional finance with decentralized ecosystems in Kurdistan & Beyond
-                    </p>
-                    
-                    <!-- Live Stats -->
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <span class="stat-label">Market Cap</span>
-                            <span class="stat-value" id="marketCap">$4.2M</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-label">Holders</span>
-                            <span class="stat-value" id="holders">1,234</span>
-                        </div>
+        <!-- STATS SECTION -->
+        <div id="statsSection" class="section hide-scrollbar">
+            <div class="header">
+                <div class="logo">OXYX<span>$</span></div>
+                <div class="gold-badge">STATISTICS</div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stats-card">
+                    <div class="stats-row">
+                        <span class="label"><i class="fas fa-users"></i> Total Holders</span>
+                        <span class="value" id="statsHolders">1,234</span>
                     </div>
+                    <div class="stats-row">
+                        <span class="label"><i class="fas fa-chart-pie"></i> Market Cap</span>
+                        <span class="value" id="statsMarketCap">$4.2M</span>
+                    </div>
+                    <div class="stats-row">
+                        <span class="label"><i class="fas fa-fire"></i> Burned Tokens</span>
+                        <span class="value" id="statsBurned">24.5M</span>
+                    </div>
+                    <div class="stats-row">
+                        <span class="label"><i class="fas fa-coins"></i> Total Supply</span>
+                        <span class="value">1B</span>
+                    </div>
+                    <div class="stats-row">
+                        <span class="label"><i class="fas fa-water"></i> Liquidity</span>
+                        <span class="value" id="statsLiquidity">$2.1M</span>
+                    </div>
+                </div>
 
-                    <!-- Pre-registration Form -->
-                    <form class="prereg-form" id="preregForm">
-                        <input type="email" placeholder="Enter your email" class="prereg-input" id="emailInput">
-                        <button type="submit" class="prereg-btn">
-                            <span>Pre-register</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </form>
-                    <p class="form-note">Be among the first 5,000 early adopters</p>
+                <div style="background: rgba(255,215,0,0.05); border-radius: 24px; padding: 20px; text-align: center; border: 1px solid rgba(255,215,0,0.2);">
+                    <span style="color: #FFD700; font-weight: 600;">🔥 2% Burn • 💎 3% Rewards</span>
                 </div>
             </div>
-        </section>
-
-        <!-- TOKENOMICS SECTION -->
-        <section id="tokenomics" class="section">
-            <div class="container">
-                <span class="section-chip">TOKEN ECONOMICS</span>
-                <h2 class="section-title">Tokenomics</h2>
-                
-                <div class="token-grid">
-                    <div class="token-card" data-aos="fade-up">
-                        <div class="token-icon">
-                            <i class="fas fa-coins"></i>
-                        </div>
-                        <div class="token-content">
-                            <span class="token-label">Total Supply</span>
-                            <span class="token-value">1,000,000,000</span>
-                            <span class="token-sub">$OXY</span>
-                        </div>
-                    </div>
-
-                    <div class="token-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="token-icon">
-                            <i class="fas fa-fire"></i>
-                        </div>
-                        <div class="token-content">
-                            <span class="token-label">Burn Rate</span>
-                            <span class="token-value">2%</span>
-                            <span class="token-sub">Per transaction</span>
-                        </div>
-                    </div>
-
-                    <div class="token-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="token-icon">
-                            <i class="fas fa-gem"></i>
-                        </div>
-                        <div class="token-content">
-                            <span class="token-label">Rewards</span>
-                            <span class="token-value">3%</span>
-                            <span class="token-sub">Redistribution</span>
-                        </div>
-                    </div>
-
-                    <div class="token-card" data-aos="fade-up" data-aos-delay="300">
-                        <div class="token-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <div class="token-content">
-                            <span class="token-label">Liquidity</span>
-                            <span class="token-value">5 Years</span>
-                            <span class="token-sub">Locked</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Distribution Chart -->
-                <div class="distribution-card">
-                    <h3>Distribution</h3>
-                    <div class="distribution-bars">
-                        <div class="dist-item">
-                            <span>Public Sale</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 40%"></div>
-                            </div>
-                            <span class="dist-percent">40%</span>
-                        </div>
-                        <div class="dist-item">
-                            <span>Liquidity</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 30%"></div>
-                            </div>
-                            <span class="dist-percent">30%</span>
-                        </div>
-                        <div class="dist-item">
-                            <span>Team</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 15%"></div>
-                            </div>
-                            <span class="dist-percent">15%</span>
-                        </div>
-                        <div class="dist-item">
-                            <span>Marketing</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 15%"></div>
-                            </div>
-                            <span class="dist-percent">15%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
 
         <!-- ROADMAP SECTION -->
-        <section id="roadmap" class="section">
-            <div class="container">
-                <span class="section-chip">JOURNEY</span>
-                <h2 class="section-title">Roadmap</h2>
-                
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-phase">Phase 1</span>
-                            <h3>Pre-launch</h3>
-                            <p>Community building, smart contract audit, website launch</p>
-                            <span class="timeline-status completed">✓ Completed</span>
-                        </div>
-                    </div>
+        <div id="roadmapSection" class="section hide-scrollbar">
+            <div class="header">
+                <div class="logo">OXYX<span>$</span></div>
+                <div class="gold-badge">ROADMAP</div>
+            </div>
 
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-phase">Phase 2</span>
-                            <h3>Token Generation</h3>
-                            <p>Token creation, DEX listing, staking rewards launch</p>
-                            <span class="timeline-status current">🔄 In Progress</span>
-                        </div>
-                    </div>
+            <div class="roadmap-container">
+                <div class="roadmap-item">
+                    <div class="roadmap-phase">PHASE 1</div>
+                    <div class="roadmap-title">Pre-launch</div>
+                    <div class="roadmap-desc">Community building, smart contract audit, website launch</div>
+                    <span class="roadmap-status">✓ Completed</span>
+                </div>
 
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-phase">Phase 3</span>
-                            <h3>Global Listing</h3>
-                            <p>CEX listings, cross-chain expansion, mobile app</p>
-                            <span class="timeline-status">🔜 Q1 2025</span>
-                        </div>
-                    </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-phase">PHASE 2</div>
+                    <div class="roadmap-title">Token Generation</div>
+                    <div class="roadmap-desc">Token creation, DEX listing, staking rewards launch</div>
+                    <span class="roadmap-status">🔄 In Progress</span>
+                </div>
 
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-phase">Phase 4</span>
-                            <h3>Ecosystem</h3>
-                            <p>Strategic partnerships, regional adoption program</p>
-                            <span class="timeline-status">🔜 Q2 2025</span>
-                        </div>
-                    </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-phase">PHASE 3</div>
+                    <div class="roadmap-title">Global Listing</div>
+                    <div class="roadmap-desc">CEX listings, cross-chain expansion, mobile app</div>
+                    <span class="roadmap-status">🔜 Q1 2025</span>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- WHITEPAPER SECTION -->
-        <section id="whitepaper" class="section">
-            <div class="container">
-                <span class="section-chip">DOCUMENTATION</span>
-                <h2 class="section-title">Whitepaper</h2>
-                
-                <div class="whitepaper-card">
-                    <div class="whitepaper-icon">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <h3>Technical Documentation</h3>
-                    <p>Complete technical specifications, tokenomics, and roadmap details</p>
-                    
-                    <div class="whitepaper-features">
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Smart Contract Architecture</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Security Audits</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Token Distribution Model</span>
-                        </div>
-                    </div>
-
-                    <button class="whitepaper-btn">
-                        <span>Read Whitepaper</span>
-                        <i class="fas fa-download"></i>
-                    </button>
-                </div>
-
-                <!-- Powered by Blockchain Badge -->
-                <div class="powered-blockchain">
-                    <i class="fas fa-cube"></i>
-                    <span>Powered by Blockchain Technology</span>
-                </div>
+        <!-- JOIN SECTION -->
+        <div id="joinSection" class="section hide-scrollbar">
+            <div class="header">
+                <div class="logo">OXYX<span>$</span></div>
+                <div class="gold-badge">EARLY ACCESS</div>
             </div>
-        </section>
-    </main>
 
-    <!-- Bottom Dock -->
-    <div class="bottom-dock">
-        <button class="dock-item active" data-section="home">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 3L3 9L12 15L21 9L12 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M3 15L12 21L21 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>Home</span>
-        </button>
-        <button class="dock-item" data-section="tokenomics">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21 12V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <span>Tokenomics</span>
-        </button>
-        <button class="dock-item" data-section="roadmap">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 4H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M3 20H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <circle cx="8" cy="4" r="2" fill="#FFD700"/>
-                <circle cx="16" cy="12" r="2" fill="#00F2FF"/>
-                <circle cx="8" cy="20" r="2" fill="#FFD700"/>
-            </svg>
-            <span>Roadmap</span>
-        </button>
-        <button class="dock-item" data-section="whitepaper">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 4H20V20H4V4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M8 8H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M8 12H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M8 16H12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <span>Whitepaper</span>
-        </button>
+            <div class="join-card">
+                <div class="join-title">Join Now</div>
+                <div class="join-sub">Be among the first 5,000 holders</div>
+                
+                <input type="text" class="input-field" id="walletInput" placeholder="Enter wallet address (0x...)">
+                
+                <button class="join-btn" id="joinBtn">
+                    <i class="fas fa-gem"></i>
+                    Secure Access
+                </button>
+                
+                <div id="messageBox" class="message-box"></div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active" data-section="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" data-section="stats">
+                <i class="fas fa-chart-bar"></i>
+                <span>Stats</span>
+            </button>
+            <button class="nav-item" data-section="roadmap">
+                <i class="fas fa-road"></i>
+                <span>Roadmap</span>
+            </button>
+            <button class="nav-item" data-section="join">
+                <i class="fas fa-user-plus"></i>
+                <span>Join</span>
+            </button>
+        </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="script.js"></script>
+    <script>
+        // ===== DOM Elements =====
+        const sections = {
+            home: document.getElementById('homeSection'),
+            stats: document.getElementById('statsSection'),
+            roadmap: document.getElementById('roadmapSection'),
+            join: document.getElementById('joinSection')
+        };
+        
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        // Live Data Elements
+        const livePrice = document.getElementById('livePrice');
+        const priceChange = document.getElementById('priceChange');
+        const holderCount = document.getElementById('holderCount');
+        const progressCount = document.getElementById('progressCount');
+        const statsHolders = document.getElementById('statsHolders');
+        const statsMarketCap = document.getElementById('statsMarketCap');
+        const statsBurned = document.getElementById('statsBurned');
+        const statsLiquidity = document.getElementById('statsLiquidity');
+
+        // Join Elements
+        const walletInput = document.getElementById('walletInput');
+        const joinBtn = document.getElementById('joinBtn');
+        const messageBox = document.getElementById('messageBox');
+
+        // ===== State =====
+        let currentPrice = 0.0012;
+        let holders = 1234;
+        let progress = 65;
+        let marketCap = 4.2;
+        let burned = 24.5;
+        let liquidity = 2.1;
+
+        // ===== Navigation Function =====
+        function switchSection(sectionId) {
+            // Hide all sections with opacity transition
+            Object.values(sections).forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            if (sections[sectionId]) {
+                sections[sectionId].classList.add('active');
+            }
+            
+            // Update nav items
+            navItems.forEach(item => {
+                const itemSection = item.getAttribute('data-section');
+                if (itemSection === sectionId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // ===== Navigation Click Handlers =====
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const sectionId = item.getAttribute('data-section');
+                switchSection(sectionId);
+            });
+        });
+
+        // ===== Live Data Updates =====
+        function updateLiveData() {
+            // Update price
+            const change = (Math.random() * 0.0003) - 0.0001;
+            currentPrice += change;
+            if (currentPrice < 0.0008) currentPrice = 0.0008;
+            if (currentPrice > 0.0025) currentPrice = 0.0025;
+            
+            livePrice.textContent = '$' + currentPrice.toFixed(4);
+            
+            // Update price change
+            const changePercent = ((change / currentPrice) * 100).toFixed(1);
+            const isPositive = change >= 0;
+            priceChange.textContent = (isPositive ? '+' : '') + changePercent + '%';
+            priceChange.style.color = isPositive ? '#10b981' : '#ef4444';
+            priceChange.style.background = isPositive ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)';
+            
+            // Update holders
+            const holderIncrease = Math.floor(Math.random() * 3) + 1;
+            holders += holderIncrease;
+            const holderStr = holders.toLocaleString();
+            holderCount.textContent = holderStr;
+            if (statsHolders) statsHolders.textContent = holderStr;
+            
+            // Update progress
+            if (progress < 100) {
+                progress += 0.2;
+                if (progress > 100) progress = 100;
+                progressCount.textContent = Math.floor(progress) + '%';
+            }
+            
+            // Update market cap
+            marketCap = 4.2 * (currentPrice / 0.0012);
+            statsMarketCap.textContent = '$' + marketCap.toFixed(1) + 'M';
+            
+            // Update burned
+            burned += 0.05;
+            statsBurned.textContent = burned.toFixed(1) + 'M';
+            
+            // Update liquidity
+            liquidity += 0.02;
+            statsLiquidity.textContent = '$' + liquidity.toFixed(1) + 'M';
+        }
+
+        // ===== Join Form Handler =====
+        joinBtn.addEventListener('click', () => {
+            const wallet = walletInput.value.trim();
+            
+            messageBox.classList.remove('show', 'success');
+            
+            if (!wallet) {
+                messageBox.textContent = 'Please enter your wallet address';
+                messageBox.classList.add('show');
+                messageBox.style.background = 'rgba(239,68,68,0.1)';
+                messageBox.style.border = '1px solid #ef4444';
+                messageBox.style.color = '#ef4444';
+                return;
+            }
+            
+            if (!wallet.startsWith('0x') || wallet.length !== 42) {
+                messageBox.textContent = 'Invalid Ethereum address';
+                messageBox.classList.add('show');
+                messageBox.style.background = 'rgba(239,68,68,0.1)';
+                messageBox.style.border = '1px solid #ef4444';
+                messageBox.style.color = '#ef4444';
+                return;
+            }
+            
+            // Success
+            messageBox.innerHTML = '✓ Address secured! You are in the top 1%';
+            messageBox.classList.add('show', 'success');
+            walletInput.value = '';
+            
+            // Add to holders
+            holders += 1;
+            holderCount.textContent = holders.toLocaleString();
+            if (statsHolders) statsHolders.textContent = holders.toLocaleString();
+        });
+
+        // Enter key support
+        walletInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                joinBtn.click();
+            }
+        });
+
+        // ===== Start Live Updates =====
+        setInterval(updateLiveData, 3000);
+
+        // ===== Ensure Home is Active on Load =====
+        window.addEventListener('load', () => {
+            switchSection('home');
+        });
+    </script>
 </body>
 </html>
