@@ -3,529 +3,682 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>OXYX Finance • Full-Page Experience</title>
-    
-    <!-- Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>OXYX • Ultra Premium</title>
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Custom styles beyond Tailwind */
+        /* ===== CORE RESETS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         body {
+            background-color: #050505;
             font-family: 'Inter', sans-serif;
-            background-color: #080808;
-            overflow: hidden; /* Prevent any page scroll */
+            overflow: hidden;
             position: fixed;
             width: 100%;
             height: 100%;
-            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation; /* PREVENT ZOOM */
         }
-        
-        /* Custom gradient text */
-        .gradient-gold {
+
+        /* ===== CUSTOM UTILITIES ===== */
+        .gold-gradient {
             background: linear-gradient(135deg, #FFD700 0%, #FFD700 80%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
-        /* Glowing effect */
-        .glow {
-            animation: glow 3s ease-in-out infinite;
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
         }
-        
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
-            50% { text-shadow: 0 0 40px rgba(255, 215, 0, 0.7); }
+
+        .glass-panel-intense {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 215, 0, 0.15);
         }
-        
-        /* Section transitions */
-        .page-section {
+
+        /* ===== BACKGROUND ===== */
+        .bg-radial {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
+                        #050505;
+            z-index: -2;
+        }
+
+        .bg-noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ===== VIEWPORT MANAGER ===== */
+        .viewport {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .view {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            transform: scale(0.98);
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        visibility 0.4s ease;
             overflow-y: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            padding-bottom: 90px; /* Space for fixed bottom nav */
-        }
-        
-        .page-section::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .page-section.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        /* Glassmorphism cards */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            border-radius: 32px;
-        }
-        
-        /* Gold button */
-        .gold-btn {
-            background: #FFD700;
-            color: #080808;
-            font-weight: 700;
-            transition: all 0.3s;
-        }
-        
-        .gold-btn:active {
-            transform: scale(0.97);
-        }
-        
-        /* Custom scrollbar for sections */
-        .page-section {
+            overflow-x: hidden;
+            padding-bottom: 90px;
             scrollbar-width: thin;
-            scrollbar-color: #FFD700 #1a1a1a;
+            scrollbar-color: #FFD700 rgba(255, 255, 255, 0.05);
+            -webkit-overflow-scrolling: touch;
         }
-        
-        .page-section::-webkit-scrollbar {
+
+        .view::-webkit-scrollbar {
             width: 4px;
         }
-        
-        .page-section::-webkit-scrollbar-track {
-            background: #1a1a1a;
+
+        .view::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
         }
-        
-        .page-section::-webkit-scrollbar-thumb {
+
+        .view::-webkit-scrollbar-thumb {
             background-color: #FFD700;
             border-radius: 20px;
         }
-        
-        /* Roadmap timeline */
-        .timeline-item {
+
+        .view.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        /* ===== BREATHING ANIMATION ===== */
+        .breathing {
+            animation: breathe 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+                text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            }
+            50% {
+                opacity: 0.9;
+                transform: scale(1.05);
+                text-shadow: 0 0 60px rgba(255, 215, 0, 0.6);
+            }
+        }
+
+        /* ===== GLOWING NODES ===== */
+        .timeline {
             position: relative;
-            padding-left: 30px;
-            margin-bottom: 30px;
+            padding-left: 40px;
         }
-        
-        .timeline-item::before {
+
+        .timeline::before {
             content: '';
             position: absolute;
-            left: 0;
+            left: 16px;
             top: 8px;
-            width: 12px;
-            height: 12px;
-            background: #FFD700;
-            border-radius: 50%;
-            box-shadow: 0 0 20px #FFD700;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(to bottom, #FFD700, rgba(255, 215, 0, 0.2));
         }
-        
-        .timeline-item::after {
+
+        .timeline-node {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .timeline-node::before {
             content: '';
             position: absolute;
-            left: 5px;
-            top: 25px;
-            bottom: -25px;
-            width: 2px;
-            background: linear-gradient(to bottom, #FFD700, transparent);
+            left: -40px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #FFD700;
+            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2),
+                        0 0 20px #FFD700;
+            transition: all 0.3s ease;
         }
-        
-        .timeline-item:last-child::after {
-            display: none;
+
+        .timeline-node.active::before {
+            background: #FFD700;
+            box-shadow: 0 0 0 6px rgba(255, 215, 0, 0.3),
+                        0 0 30px #FFD700;
+        }
+
+        .timeline-node.completed::before {
+            background: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2),
+                        0 0 20px #10b981;
+        }
+
+        /* ===== GLASS CARD ===== */
+        .metric-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 28px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ===== STAT ROWS ===== */
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.08);
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stat-label i {
+            color: #FFD700;
+            width: 20px;
+        }
+
+        .stat-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFD700;
+        }
+
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(255, 215, 0, 0.15);
+            padding: 12px 20px 28px 20px;
+            padding-bottom: calc(28px + env(safe-area-inset-bottom));
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item span {
+            font-size: 11px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active i {
+            color: #FFD700;
+            transform: translateY(-2px);
+            filter: drop-shadow(0 0 8px #FFD700);
+        }
+
+        .nav-item.active span {
+            color: #FFD700;
+        }
+
+        /* ===== TOKEN CARD ===== */
+        .token-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 48px;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .token-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== MONO FONTS ===== */
+        .mono {
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* ===== UTILITY ===== */
+        .gold-border {
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .gold-glow {
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
         }
     </style>
 </head>
-<body class="bg-[#080808] text-white fixed inset-0 overflow-hidden">
-    <!-- App Container -->
-    <div class="relative w-full h-full">
+<body>
+    <!-- Background Layers -->
+    <div class="bg-radial"></div>
+    <div class="bg-noise"></div>
+
+    <!-- Main Viewport -->
+    <div class="viewport">
         
-        <!-- HOME SECTION (Full Page) -->
-        <section id="home" class="page-section active">
+        <!-- HOME VIEW -->
+        <div id="homeView" class="view active">
             <div class="min-h-full flex flex-col items-center justify-center px-6 py-10">
-                <!-- Glowing Logo -->
-                <div class="text-center mb-12">
-                    <h1 class="font-['Space_Grotesk'] text-7xl font-black mb-2 glow gradient-gold">OXYX</h1>
-                    <span class="text-xs tracking-[0.3em] text-[#FFD700]/50">$OXY</span>
+                <!-- Massive Glowing Token -->
+                <div class="token-card w-full max-w-sm mx-auto mb-10">
+                    <div class="breathing">
+                        <span class="font-['Space_Mono'] text-8xl font-black gold-gradient">$</span>
+                        <span class="font-['Space_Mono'] text-8xl font-black gold-gradient">OXY</span>
+                    </div>
+                    <div class="text-xs text-white/30 mt-2 tracking-[0.3em]">LIQUID GOLD</div>
                 </div>
-                
-                <!-- Hero Content -->
-                <div class="w-full max-w-sm mx-auto text-center mb-10">
-                    <h2 class="text-2xl font-light mb-4 text-white/80">The Future of <span class="font-bold text-[#FFD700]">USDT Liquidity</span></h2>
-                    <p class="text-sm text-white/40 mb-8">Bridging traditional finance with decentralized ecosystems in Kurdistan & Beyond</p>
-                    
-                    <!-- Live Price Indicator -->
-                    <div class="glass-card p-6 mb-8">
-                        <div class="text-xs text-white/40 mb-2">LIVE PRICE</div>
-                        <div class="font-['Space_Grotesk'] text-5xl font-bold text-[#FFD700] mb-2" id="livePriceHome">$0.0012</div>
-                        <div class="text-sm text-emerald-400 bg-emerald-400/10 py-2 px-4 rounded-full inline-block" id="priceChangeHome">+12.5%</div>
+
+                <!-- Price & Market Cap in Mono -->
+                <div class="w-full max-w-sm space-y-4 mb-8">
+                    <div class="metric-card flex justify-between items-center">
+                        <span class="text-white/40 text-sm">Live Price</span>
+                        <span class="mono text-2xl font-bold text-[#FFD700]" id="livePrice">$0.0012</span>
                     </div>
-                    
-                    <!-- Quick Stats -->
-                    <div class="grid grid-cols-2 gap-4 mb-8">
-                        <div class="glass-card p-4">
-                            <div class="text-xs text-white/40 mb-1">Holders</div>
-                            <div class="font-['Space_Grotesk'] text-2xl font-bold text-[#FFD700]" id="holdersHome">1,234</div>
-                        </div>
-                        <div class="glass-card p-4">
-                            <div class="text-xs text-white/40 mb-1">Progress</div>
-                            <div class="font-['Space_Grotesk'] text-2xl font-bold text-[#FFD700]" id="progressHome">65%</div>
-                        </div>
+                    <div class="metric-card flex justify-between items-center">
+                        <span class="text-white/40 text-sm">Market Cap</span>
+                        <span class="mono text-2xl font-bold text-[#FFD700]" id="marketCap">$4.2M</span>
                     </div>
-                    
-                    <!-- Join Waitlist Button -->
-                    <button class="gold-btn w-full py-5 rounded-full text-lg font-bold flex items-center justify-center gap-3" onclick="switchToJoin()">
-                        <i class="fas fa-rocket"></i>
-                        Join Waitlist
-                    </button>
+                </div>
+
+                <!-- Quick Stats Grid -->
+                <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+                    <div class="glass-panel-intense rounded-3xl p-5 text-center">
+                        <div class="text-xs text-white/40 mb-2">Holders</div>
+                        <div class="mono text-2xl font-bold text-[#FFD700]" id="holders">1,234</div>
+                    </div>
+                    <div class="glass-panel-intense rounded-3xl p-5 text-center">
+                        <div class="text-xs text-white/40 mb-2">Progress</div>
+                        <div class="mono text-2xl font-bold text-[#FFD700]" id="progress">65%</div>
+                    </div>
                 </div>
             </div>
-        </section>
-        
-        <!-- STATS SECTION (Full Page) -->
-        <section id="stats" class="page-section">
+        </div>
+
+        <!-- STATS VIEW -->
+        <div id="statsView" class="view">
             <div class="min-h-full flex flex-col px-6 py-10">
-                <!-- Header -->
                 <div class="flex items-center justify-between mb-8">
-                    <div class="font-['Space_Grotesk'] text-2xl font-bold gradient-gold">Statistics</div>
-                    <div class="text-xs text-[#FFD700]/60 border border-[#FFD700]/20 rounded-full px-4 py-2">LIVE DATA</div>
+                    <h2 class="text-3xl font-light">
+                        <span class="font-bold gold-gradient">Analytics</span>
+                    </h2>
+                    <div class="glass-panel text-xs text-[#FFD700] px-4 py-2 rounded-full">LIVE</div>
                 </div>
-                
+
                 <!-- Stats Cards -->
-                <div class="glass-card p-6 mb-6">
-                    <div class="space-y-6">
-                        <div class="flex justify-between items-center pb-4 border-b border-white/5">
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-users text-[#FFD700] w-6"></i>
-                                <span class="text-white/80">Total Holders</span>
-                            </div>
-                            <span class="font-['Space_Grotesk'] text-xl font-bold text-[#FFD700]" id="holdersStats">1,234</span>
+                <div class="glass-panel-intense rounded-4xl p-6 mb-6">
+                    <div class="space-y-2">
+                        <div class="stat-row">
+                            <span class="stat-label"><i class="fas fa-users"></i> Holders</span>
+                            <span class="stat-value" id="statsHolders">1,234</span>
                         </div>
-                        
-                        <div class="flex justify-between items-center pb-4 border-b border-white/5">
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-chart-line text-[#FFD700] w-6"></i>
-                                <span class="text-white/80">Market Cap</span>
-                            </div>
-                            <span class="font-['Space_Grotesk'] text-xl font-bold text-[#FFD700]" id="marketCapStats">$4.2M</span>
+                        <div class="stat-row">
+                            <span class="stat-label"><i class="fas fa-chart-line"></i> Market Cap</span>
+                            <span class="stat-value" id="statsMarketCap">$4.2M</span>
                         </div>
-                        
-                        <div class="flex justify-between items-center pb-4 border-b border-white/5">
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-fire text-[#FFD700] w-6"></i>
-                                <span class="text-white/80">Burned Tokens</span>
-                            </div>
-                            <span class="font-['Space_Grotesk'] text-xl font-bold text-[#FFD700]" id="burnedStats">24.5M</span>
+                        <div class="stat-row">
+                            <span class="stat-label"><i class="fas fa-fire"></i> Burned</span>
+                            <span class="stat-value" id="statsBurned">24.5M</span>
                         </div>
-                        
-                        <div class="flex justify-between items-center pb-4 border-b border-white/5">
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-coins text-[#FFD700] w-6"></i>
-                                <span class="text-white/80">Total Supply</span>
-                            </div>
-                            <span class="font-['Space_Grotesk'] text-xl font-bold text-[#FFD700]">1B</span>
+                        <div class="stat-row">
+                            <span class="stat-label"><i class="fas fa-coins"></i> Supply</span>
+                            <span class="stat-value">1B</span>
                         </div>
-                        
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-water text-[#FFD700] w-6"></i>
-                                <span class="text-white/80">Liquidity</span>
-                            </div>
-                            <span class="font-['Space_Grotesk'] text-xl font-bold text-[#FFD700]" id="liquidityStats">$2.1M</span>
+                        <div class="stat-row">
+                            <span class="stat-label"><i class="fas fa-water"></i> Liquidity</span>
+                            <span class="stat-value" id="statsLiquidity">$2.1M</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Tokenomics Badge -->
-                <div class="glass-card p-5 text-center">
-                    <div class="flex justify-center gap-6">
+                <div class="glass-panel rounded-3xl p-6 text-center">
+                    <div class="flex justify-center gap-8">
                         <div>
-                            <span class="block text-[#FFD700] font-bold">2%</span>
+                            <span class="block mono text-2xl font-bold text-[#FFD700]">2%</span>
                             <span class="text-xs text-white/40">Burn</span>
                         </div>
                         <div class="w-px bg-white/10"></div>
                         <div>
-                            <span class="block text-[#FFD700] font-bold">3%</span>
+                            <span class="block mono text-2xl font-bold text-[#FFD700]">3%</span>
                             <span class="text-xs text-white/40">Rewards</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <!-- ROADMAP SECTION (Full Page) -->
-        <section id="roadmap" class="page-section">
+        </div>
+
+        <!-- ROADMAP VIEW -->
+        <div id="roadmapView" class="view">
             <div class="min-h-full flex flex-col px-6 py-10">
-                <!-- Header -->
-                <div class="flex items-center justify-between mb-8">
-                    <div class="font-['Space_Grotesk'] text-2xl font-bold gradient-gold">Roadmap</div>
-                    <div class="text-xs text-[#FFD700]/60 border border-[#FFD700]/20 rounded-full px-4 py-2">2024-2025</div>
-                </div>
-                
-                <!-- Timeline -->
-                <div class="glass-card p-6">
-                    <div class="timeline-item">
-                        <div class="mb-1 text-xs text-[#FFD700]/60">PHASE 1</div>
-                        <h3 class="text-lg font-bold text-white mb-1">Pre-launch</h3>
-                        <p class="text-sm text-white/40 mb-2">Community building, smart contract audit, website launch</p>
-                        <span class="inline-block text-xs bg-emerald-400/10 text-emerald-400 px-3 py-1 rounded-full">✓ Completed</span>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="mb-1 text-xs text-[#FFD700]/60">PHASE 2</div>
-                        <h3 class="text-lg font-bold text-white mb-1">Token Generation</h3>
-                        <p class="text-sm text-white/40 mb-2">Token creation, DEX listing, staking rewards launch</p>
-                        <span class="inline-block text-xs bg-[#FFD700]/10 text-[#FFD700] px-3 py-1 rounded-full">🔄 In Progress</span>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="mb-1 text-xs text-[#FFD700]/60">PHASE 3</div>
-                        <h3 class="text-lg font-bold text-white mb-1">Global Listing</h3>
-                        <p class="text-sm text-white/40 mb-2">CEX listings, cross-chain expansion, mobile app</p>
-                        <span class="inline-block text-xs bg-white/5 text-white/40 px-3 py-1 rounded-full">🔜 Q1 2025</span>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="mb-1 text-xs text-[#FFD700]/60">PHASE 4</div>
-                        <h3 class="text-lg font-bold text-white mb-1">Ecosystem</h3>
-                        <p class="text-sm text-white/40 mb-2">Strategic partnerships, regional adoption program</p>
-                        <span class="inline-block text-xs bg-white/5 text-white/40 px-3 py-1 rounded-full">🔜 Q2 2025</span>
+                <h2 class="text-3xl font-light mb-8">
+                    <span class="font-bold gold-gradient">Roadmap</span>
+                </h2>
+
+                <!-- Timeline with Glowing Nodes -->
+                <div class="glass-panel-intense rounded-4xl p-6">
+                    <div class="timeline">
+                        <div class="timeline-node completed">
+                            <div class="mb-1 text-xs text-[#10b981]">PHASE 1 • COMPLETED</div>
+                            <h3 class="text-lg font-semibold text-white mb-1">Pre-launch</h3>
+                            <p class="text-sm text-white/40">Community building, audit, website</p>
+                        </div>
+
+                        <div class="timeline-node active">
+                            <div class="mb-1 text-xs text-[#FFD700]">PHASE 2 • CURRENT</div>
+                            <h3 class="text-lg font-semibold text-white mb-1">Token Generation</h3>
+                            <p class="text-sm text-white/40">DEX listing, staking rewards</p>
+                        </div>
+
+                        <div class="timeline-node">
+                            <div class="mb-1 text-xs text-white/40">PHASE 3 • Q1 2025</div>
+                            <h3 class="text-lg font-semibold text-white mb-1">Global Listing</h3>
+                            <p class="text-sm text-white/40">CEX listings, cross-chain expansion</p>
+                        </div>
+
+                        <div class="timeline-node">
+                            <div class="mb-1 text-xs text-white/40">PHASE 4 • Q2 2025</div>
+                            <h3 class="text-lg font-semibold text-white mb-1">Ecosystem</h3>
+                            <p class="text-sm text-white/40">Strategic partnerships, adoption</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <!-- JOIN SECTION (Full Page) -->
-        <section id="join" class="page-section">
-            <div class="min-h-full flex flex-col items-center justify-center px-6 py-10">
-                <!-- Join Card -->
-                <div class="w-full max-w-sm glass-card p-8 text-center">
-                    <div class="w-20 h-20 bg-[#FFD700]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+        </div>
+
+        <!-- JOIN VIEW -->
+        <div id="joinView" class="view">
+            <div class="min-h-full flex items-center justify-center px-6">
+                <div class="w-full max-w-sm glass-panel-intense rounded-4xl p-8 text-center">
+                    <!-- Icon -->
+                    <div class="w-24 h-24 mx-auto mb-6 rounded-full glass-panel flex items-center justify-center">
                         <i class="fas fa-gem text-4xl text-[#FFD700]"></i>
                     </div>
-                    
-                    <h2 class="font-['Space_Grotesk'] text-3xl font-bold gradient-gold mb-2">Early Access</h2>
-                    <p class="text-sm text-white/40 mb-8">Be among the first 5,000 holders</p>
-                    
-                    <input type="text" id="walletInput" placeholder="Enter wallet address (0x...)" 
-                           class="w-full bg-white/5 border-2 border-[#FFD700]/20 rounded-full px-6 py-4 text-white placeholder-white/20 mb-4 focus:outline-none focus:border-[#FFD700] transition-all">
-                    
-                    <button id="joinSubmitBtn" class="gold-btn w-full py-4 rounded-full text-lg font-bold flex items-center justify-center gap-3 mb-4">
+
+                    <h2 class="text-3xl font-bold gold-gradient mb-2">Early Access</h2>
+                    <p class="text-sm text-white/40 mb-8">Join the top 1% of OXY adopters</p>
+
+                    <!-- Form -->
+                    <input type="text" id="walletAddress" 
+                           placeholder="0x..." 
+                           class="w-full bg-white/5 border border-[#FFD700]/20 rounded-full px-6 py-4 text-white placeholder-white/20 mb-4 focus:outline-none focus:border-[#FFD700] transition-all mono text-sm">
+
+                    <button id="joinButton" 
+                            class="w-full bg-[#FFD700] text-[#050505] font-bold py-4 rounded-full text-lg flex items-center justify-center gap-3 transition-all active:scale-95">
                         <i class="fas fa-lock"></i>
-                        Secure Early Access
+                        Secure Access
                     </button>
-                    
-                    <div id="joinMessage" class="text-sm hidden"></div>
-                    
+
+                    <!-- Message Container -->
+                    <div id="joinMessage" class="mt-4 text-sm hidden"></div>
+
                     <div class="text-xs text-white/20 mt-6">
-                        ⚡ Limited spots available
+                        Limited to first 5,000 wallets
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <!-- Fixed Bottom Navigation -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-[#080808]/95 backdrop-blur-xl border-t border-[#FFD700]/20 py-3 px-2 z-50">
-            <div class="flex justify-around items-center max-w-sm mx-auto">
-                <button class="nav-btn active flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all" data-section="home">
-                    <i class="fas fa-home text-2xl text-[#FFD700]"></i>
-                    <span class="text-xs text-[#FFD700]">Home</span>
-                </button>
-                
-                <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all" data-section="stats">
-                    <i class="fas fa-chart-bar text-2xl text-white/40"></i>
-                    <span class="text-xs text-white/40">Stats</span>
-                </button>
-                
-                <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all" data-section="roadmap">
-                    <i class="fas fa-road text-2xl text-white/40"></i>
-                    <span class="text-xs text-white/40">Roadmap</span>
-                </button>
-                
-                <button class="nav-btn flex flex-col items-center gap-1 px-6 py-2 rounded-2xl transition-all" data-section="join">
-                    <i class="fas fa-user-plus text-2xl text-white/40"></i>
-                    <span class="text-xs text-white/40">Join</span>
-                </button>
-            </div>
-        </nav>
+        </div>
     </div>
 
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <div class="nav-container">
+            <button class="nav-item active" data-view="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" data-view="stats">
+                <i class="fas fa-chart-bar"></i>
+                <span>Stats</span>
+            </button>
+            <button class="nav-item" data-view="roadmap">
+                <i class="fas fa-road"></i>
+                <span>Roadmap</span>
+            </button>
+            <button class="nav-item" data-view="join">
+                <i class="fas fa-user-plus"></i>
+                <span>Join</span>
+            </button>
+        </div>
+    </nav>
+
     <script>
-        // ===== DOM Elements =====
-        const sections = {
-            home: document.getElementById('home'),
-            stats: document.getElementById('stats'),
-            roadmap: document.getElementById('roadmap'),
-            join: document.getElementById('join')
+        // ===== VIEWPORT MANAGER =====
+        const views = {
+            home: document.getElementById('homeView'),
+            stats: document.getElementById('statsView'),
+            roadmap: document.getElementById('roadmapView'),
+            join: document.getElementById('joinView')
         };
-        
-        const navBtns = document.querySelectorAll('.nav-btn');
-        
-        // Live data elements
-        const livePriceHome = document.getElementById('livePriceHome');
-        const priceChangeHome = document.getElementById('priceChangeHome');
-        const holdersHome = document.getElementById('holdersHome');
-        const progressHome = document.getElementById('progressHome');
-        const holdersStats = document.getElementById('holdersStats');
-        const marketCapStats = document.getElementById('marketCapStats');
-        const burnedStats = document.getElementById('burnedStats');
-        const liquidityStats = document.getElementById('liquidityStats');
-        
-        // Join elements
-        const walletInput = document.getElementById('walletInput');
-        const joinSubmitBtn = document.getElementById('joinSubmitBtn');
-        const joinMessage = document.getElementById('joinMessage');
-        
-        // ===== State =====
+
+        const navItems = document.querySelectorAll('.nav-item');
+
+        function switchView(viewId) {
+            // Hide all views with scale/fade transition
+            Object.values(views).forEach(view => {
+                view.classList.remove('active');
+            });
+
+            // Show selected view
+            if (views[viewId]) {
+                views[viewId].classList.add('active');
+                // Reset scroll position
+                views[viewId].scrollTop = 0;
+            }
+
+            // Update navigation
+            navItems.forEach(item => {
+                const itemView = item.getAttribute('data-view');
+                if (itemView === viewId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Navigation click handlers
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const viewId = item.getAttribute('data-view');
+                switchView(viewId);
+            });
+        });
+
+        // ===== LIVE DATA =====
         let currentPrice = 0.0012;
         let holders = 1234;
         let progress = 65;
         let marketCap = 4.2;
         let burned = 24.5;
         let liquidity = 2.1;
-        
-        // ===== Navigation Function =====
-        function switchSection(sectionId) {
-            // Hide all sections
-            Object.values(sections).forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Show selected section
-            if (sections[sectionId]) {
-                sections[sectionId].classList.add('active');
-                // Reset scroll position to top
-                sections[sectionId].scrollTop = 0;
-            }
-            
-            // Update navigation buttons
-            navBtns.forEach((btn, index) => {
-                const btnSection = btn.getAttribute('data-section');
-                const icon = btn.querySelector('i');
-                const span = btn.querySelector('span');
-                
-                if (btnSection === sectionId) {
-                    // Active state
-                    icon.style.color = '#FFD700';
-                    span.style.color = '#FFD700';
-                } else {
-                    // Inactive state
-                    icon.style.color = 'rgba(255,255,255,0.4)';
-                    span.style.color = 'rgba(255,255,255,0.4)';
-                }
-            });
-        }
-        
-        // Helper function for Home join button
-        window.switchToJoin = function() {
-            switchSection('join');
-        };
-        
-        // Navigation click handlers
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const sectionId = btn.getAttribute('data-section');
-                switchSection(sectionId);
-            });
-        });
-        
-        // ===== Live Data Updates =====
+
         function updateLiveData() {
-            // Update price
+            // Price update
             const change = (Math.random() * 0.0003) - 0.0001;
             currentPrice += change;
             if (currentPrice < 0.0008) currentPrice = 0.0008;
             if (currentPrice > 0.0025) currentPrice = 0.0025;
+
+            // Update all displays
+            document.getElementById('livePrice').textContent = '$' + currentPrice.toFixed(4);
             
-            livePriceHome.textContent = '$' + currentPrice.toFixed(4);
-            
-            // Update price change
-            const changePercent = ((change / currentPrice) * 100).toFixed(1);
-            const isPositive = change >= 0;
-            priceChangeHome.textContent = (isPositive ? '+' : '') + changePercent + '%';
-            priceChangeHome.className = `text-sm ${isPositive ? 'text-emerald-400 bg-emerald-400/10' : 'text-red-400 bg-red-400/10'} py-2 px-4 rounded-full inline-block`;
-            
-            // Update holders
-            const holderIncrease = Math.floor(Math.random() * 3) + 1;
-            holders += holderIncrease;
+            // Holders
+            holders += Math.floor(Math.random() * 3) + 1;
             const holderStr = holders.toLocaleString();
-            holdersHome.textContent = holderStr;
-            if (holdersStats) holdersStats.textContent = holderStr;
-            
-            // Update progress
+            document.getElementById('holders').textContent = holderStr;
+            document.getElementById('statsHolders').textContent = holderStr;
+
+            // Progress
             if (progress < 100) {
                 progress += 0.2;
                 if (progress > 100) progress = 100;
-                progressHome.textContent = Math.floor(progress) + '%';
+                document.getElementById('progress').textContent = Math.floor(progress) + '%';
             }
-            
-            // Update market cap
+
+            // Market Cap
             marketCap = 4.2 * (currentPrice / 0.0012);
-            marketCapStats.textContent = '$' + marketCap.toFixed(1) + 'M';
-            
-            // Update burned
+            document.getElementById('marketCap').textContent = '$' + marketCap.toFixed(1) + 'M';
+            document.getElementById('statsMarketCap').textContent = '$' + marketCap.toFixed(1) + 'M';
+
+            // Burned
             burned += 0.05;
-            burnedStats.textContent = burned.toFixed(1) + 'M';
-            
-            // Update liquidity
+            document.getElementById('statsBurned').textContent = burned.toFixed(1) + 'M';
+
+            // Liquidity
             liquidity += 0.02;
-            liquidityStats.textContent = '$' + liquidity.toFixed(1) + 'M';
+            document.getElementById('statsLiquidity').textContent = '$' + liquidity.toFixed(1) + 'M';
         }
-        
-        // ===== Join Form Handler =====
-        joinSubmitBtn.addEventListener('click', () => {
+
+        // ===== JOIN FORM =====
+        const walletInput = document.getElementById('walletAddress');
+        const joinButton = document.getElementById('joinButton');
+        const joinMessage = document.getElementById('joinMessage');
+
+        joinButton.addEventListener('click', () => {
             const wallet = walletInput.value.trim();
-            
+
             joinMessage.classList.remove('hidden');
-            
+
             if (!wallet) {
-                joinMessage.textContent = '❌ Please enter your wallet address';
-                joinMessage.className = 'text-sm mt-2 text-red-400 bg-red-400/10 p-3 rounded-full';
+                joinMessage.textContent = 'Please enter your wallet address';
+                joinMessage.className = 'mt-4 text-sm text-red-400 bg-red-400/10 p-3 rounded-full';
                 return;
             }
-            
+
             if (!wallet.startsWith('0x') || wallet.length !== 42) {
-                joinMessage.textContent = '❌ Invalid Ethereum address';
-                joinMessage.className = 'text-sm mt-2 text-red-400 bg-red-400/10 p-3 rounded-full';
+                joinMessage.textContent = 'Invalid Ethereum address';
+                joinMessage.className = 'mt-4 text-sm text-red-400 bg-red-400/10 p-3 rounded-full';
                 return;
             }
-            
+
             // Success
-            joinMessage.innerHTML = '✓ <strong>Address Secured!</strong> You are in the top 1%';
-            joinMessage.className = 'text-sm mt-2 text-[#FFD700] bg-[#FFD700]/10 p-3 rounded-full';
+            joinMessage.innerHTML = '✓ <strong>Address Secured!</strong> Top 1% adopter';
+            joinMessage.className = 'mt-4 text-sm text-[#FFD700] bg-[#FFD700]/10 p-3 rounded-full';
             walletInput.value = '';
-            
+
             // Add to holders
             holders += 1;
-            holdersHome.textContent = holders.toLocaleString();
-            if (holdersStats) holdersStats.textContent = holders.toLocaleString();
-            
-            // Auto hide after 5 seconds
+            document.getElementById('holders').textContent = holders.toLocaleString();
+            document.getElementById('statsHolders').textContent = holders.toLocaleString();
+
+            // Auto hide
             setTimeout(() => {
                 joinMessage.classList.add('hidden');
             }, 5000);
         });
-        
+
         // Enter key support
         walletInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                joinSubmitBtn.click();
+                joinButton.click();
             }
         });
-        
-        // ===== Start Live Updates =====
+
+        // ===== INIT =====
         setInterval(updateLiveData, 3000);
-        
-        // ===== Initialize =====
-        window.addEventListener('load', () => {
-            switchSection('home');
-        });
+
+        // Ensure Home is active
+        switchView('home');
     </script>
 </body>
 </html>
