@@ -1,228 +1,244 @@
-// ===== STATE MANAGEMENT =====
-let currentSection = 'home';
-let priceUpdateInterval;
-
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
     initializeApp();
 });
 
 function initializeApp() {
-    setupNavigation();
-    setupEventListeners();
-    startPriceSimulation();
-    initializeIcons();
+    setupScrollReveal();
+    setupPriceSimulation();
+    setupNavHighlight();
+    setupSmoothScrolling();
+    setupMobileFixes();
 }
 
-// ===== NAVIGATION =====
-function setupNavigation() {
+// ===== SCROLL REVEAL =====
+function setupScrollReveal() {
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) e.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    
+    sections.forEach(s => observer.observe(s));
+}
+
+// ===== LIVE PRICE SIMULATION =====
+let price = 0.08431;
+
+function setupPriceSimulation() {
+    updatePrice();
+    setInterval(updatePrice, 3200);
+}
+
+function updatePrice() {
+    const change = (Math.random() - 0.48) * 0.0004;
+    price = Math.max(0.07, Math.min(0.12, price + change));
+    
+    const priceElement = document.getElementById('price');
+    if (priceElement) {
+        priceElement.textContent = '$' + price.toFixed(5);
+    }
+}
+
+// ===== NAVIGATION HIGHLIGHT =====
+function setupNavHighlight() {
+    const sections = document.querySelectorAll('section');
     const navItems = document.querySelectorAll('.nav-item');
     
+    // Handle click navigation
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
-            const sectionId = item.dataset.section;
-            if (sectionId) {
-                switchSection(sectionId);
+            
+            // Remove active class from all nav items
+            navItems.forEach(n => n.classList.remove('active'));
+            
+            // Add active class to clicked item
+            item.classList.add('active');
+            
+            // Get target section and scroll
+            const targetId = item.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+    
+    // Update active nav on scroll
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                const id = e.target.id;
+                const navMap = {
+                    'home': 0,
+                    'stats': 1,
+                    'roadmap': 2,
+                    'join': 3
+                };
+                
+                const idx = navMap[id];
+                if (idx !== undefined) {
+                    navItems.forEach(n => n.classList.remove('active'));
+                    navItems[idx].classList.add('active');
+                }
+            }
+        });
+    }, { threshold: 0.4 });
+    
+    sections.forEach(s => sectionObserver.observe(s));
+}
+
+// ===== WAITLIST FORM HANDLING =====
+let waitlistCount = 4219;
+
+function handleSubmit() {
+    const walletInput = document.getElementById('wallet');
+    const emailInput = document.getElementById('email');
+    const wallet = walletInput.value.trim();
+    
+    if (!wallet) {
+        // Show error state
+        walletInput.style.borderColor = 'rgba(239,68,68,0.5)';
+        setTimeout(() => {
+            walletInput.style.borderColor = '';
+        }, 1200);
+        return;
+    }
+    
+    // Hide form, show success
+    document.getElementById('form-wrap').style.display = 'none';
+    document.getElementById('success').classList.add('show');
+    
+    // Update counter
+    waitlistCount++;
+    const countElement = document.getElementById('waitlist-count');
+    if (countElement) {
+        countElement.textContent = waitlistCount.toLocaleString() + ' wallets registered';
+    }
+    
+    // Optional: Store in localStorage
+    const registration = {
+        wallet: wallet,
+        email: emailInput ? emailInput.value.trim() : '',
+        timestamp: new Date().toISOString()
+    };
+    
+    try {
+        localStorage.setItem('oxyx_registration_' + Date.now(), JSON.stringify(registration));
+    } catch (e) {
+        console.log('Storage not available');
+    }
+}
+
+// Make function globally available
+window.handleSubmit = handleSubmit;
+
+// ===== SMOOTH SCROLLING =====
+function setupSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
         });
     });
 }
 
-function switchSection(sectionId) {
-    // Update active states
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
+// ===== MOBILE FIXES =====
+function setupMobileFixes() {
+    // Prevent zoom on input focus for iOS
+    const inputs = document.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            document.body.style.transform = 'scale(1)';
+        });
     });
     
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    
-    // Activate new section
-    const targetSection = document.getElementById(sectionId);
-    const targetNav = document.querySelector(`[data-section="${sectionId}"]`);
-    
-    if (targetSection && targetNav) {
-        targetSection.classList.add('active');
-        targetNav.classList.add('active');
-        currentSection = sectionId;
-        
-        // Scroll to top on section change
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
-}
-
-// ===== PRICE SIMULATION =====
-function startPriceSimulation() {
-    // Initial values
-    updatePriceDisplay();
-    
-    // Update every 30 seconds
-    priceUpdateInterval = setInterval(() => {
-        updatePriceDisplay();
-    }, 30000);
-}
-
-function updatePriceDisplay() {
-    // Simulate price changes
-    const basePrice = 0.01234;
-    const change = (Math.random() * 2 - 1) * 0.05; // -5% to +5%
-    const newPrice = basePrice * (1 + change);
-    const priceChangePercent = (change * 100).toFixed(2);
-    
-    // Update DOM elements
-    const priceElements = {
-        'oxyx-price': `$${newPrice.toFixed(4)}`,
-        'price-change': `${priceChangePercent}%`,
-        'volume': `$${(Math.random() * 100000 + 50000).toFixed(0)}`
-    };
-    
-    for (const [id, value] of Object.entries(priceElements)) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.textContent = value;
-        }
-    }
-    
-    // Update price change class
-    const priceChangeElement = document.getElementById('price-change');
-    if (priceChangeElement) {
-        priceChangeElement.className = parseFloat(priceChangePercent) >= 0 ? 'stat-change positive' : 'stat-change negative';
-    }
-    
-    // Update home section stats
-    updateHomeStats(newPrice, priceChangePercent);
-}
-
-function updateHomeStats(price, change) {
-    const marketCapElement = document.querySelector('.stat-card .stat-value');
-    const changeElement = document.querySelector('.stat-change.positive');
-    
-    if (marketCapElement) {
-        const marketCap = price * 1000000; // Assuming 1M supply
-        marketCapElement.textContent = `$${marketCap.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
-    }
-    
-    if (changeElement && changeElement.textContent.includes('Loading')) {
-        changeElement.textContent = `${parseFloat(change) >= 0 ? '+' : ''}${change}%`;
-    }
-}
-
-// ===== EVENT LISTENERS =====
-function setupEventListeners() {
-    // Connect wallet button
-    const connectBtn = document.querySelector('.connect-wallet-btn');
-    if (connectBtn) {
-        connectBtn.addEventListener('click', handleConnectWallet);
-    }
-    
-    // Buy button
-    const buyBtn = document.querySelector('.btn-primary');
-    if (buyBtn) {
-        buyBtn.addEventListener('click', () => {
-            window.open('https://app.uniswap.org/#/swap?outputCurrency=0xyx', '_blank');
-        });
-    }
-    
-    // Chart button
-    const chartBtn = document.querySelector('.btn-secondary');
-    if (chartBtn) {
-        chartBtn.addEventListener('click', () => {
-            window.open('https://dexscreener.com/ethereum/0xyx', '_blank');
-        });
-    }
-    
-    // Social links
-    document.querySelectorAll('.social-card').forEach(card => {
-        card.addEventListener('click', (e) => {
+    // Prevent pull-to-refresh and overscroll
+    document.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 1) {
             e.preventDefault();
-            const platform = card.querySelector('.social-name')?.textContent;
-            handleSocialClick(platform);
+        }
+    }, { passive: false });
+    
+    // Fix 100vh on mobile browsers
+    function setVH() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    window.addEventListener('resize', setVH);
+    window.addEventListener('orientationchange', setVH);
+    setVH();
+    
+    // Handle back button navigation
+    window.addEventListener('popstate', () => {
+        const hash = window.location.hash || '#home';
+        const target = document.querySelector(hash);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}
+
+// ===== PERFORMANCE OPTIMIZATIONS =====
+// Lazy load non-critical resources
+if ('IntersectionObserver' in window) {
+    const lazyElements = document.querySelectorAll('.lazy-load');
+    const lazyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const element = entry.target;
+                if (element.dataset.src) {
+                    element.src = element.dataset.src;
+                }
+                element.classList.add('loaded');
+                lazyObserver.unobserve(element);
+            }
         });
     });
     
-    // Handle touch events for mobile
-    document.addEventListener('touchstart', () => {}, {passive: true});
+    lazyElements.forEach(el => lazyObserver.observe(el));
 }
 
-// ===== HANDLERS =====
-function handleConnectWallet() {
-    const btn = document.querySelector('.connect-wallet-btn');
-    btn.innerHTML = '<i data-lucide="loader" class="icon-sm"></i><span>Connecting...</span>';
-    btn.disabled = true;
-    
-    // Simulate wallet connection
-    setTimeout(() => {
-        btn.innerHTML = '<i data-lucide="check" class="icon-sm"></i><span>Connected</span>';
-        btn.style.background = 'rgba(16, 185, 129, 0.1)';
-        btn.style.borderColor = 'rgba(16, 185, 129, 0.2)';
-        
-        // Re-initialize icons
-        lucide.createIcons();
-    }, 1500);
-}
-
-function handleSocialClick(platform) {
-    const urls = {
-        'Telegram': 'https://t.me/oxyxfinance',
-        'Twitter / X': 'https://twitter.com/OXYXFinance',
-        'Documentation': 'https://docs.oxyx.finance',
-        'GitHub': 'https://github.com/oxyxfinance',
-        'Discord': 'https://discord.gg/oxyx',
-        'Medium': 'https://medium.com/@oxyxfinance'
-    };
-    
-    if (platform && urls[platform]) {
-        window.open(urls[platform], '_blank');
-    }
-}
-
-// ===== UTILITIES =====
-function initializeIcons() {
-    // Ensure Lucide icons are initialized
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-}
+// ===== ERROR HANDLING =====
+window.addEventListener('error', (e) => {
+    console.log('Non-critical error caught:', e.message);
+});
 
 // ===== CLEANUP =====
 window.addEventListener('beforeunload', () => {
-    if (priceUpdateInterval) {
-        clearInterval(priceUpdateInterval);
-    }
+    // Clear any intervals if needed
 });
 
-// ===== MOBILE FIXES =====
-// Prevent pull-to-refresh on mobile
-document.body.addEventListener('touchmove', (e) => {
-    if (window.scrollY === 0 && e.touches[0].clientY > 0) {
-        e.preventDefault();
+// ===== ANALYTICS STUB (Optional) =====
+function trackEvent(category, action, label) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', action, {
+            'event_category': category,
+            'event_label': label
+        });
     }
-}, { passive: false });
-
-// Fix for 100vh on mobile
-function setVH() {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 
-window.addEventListener('resize', setVH);
-setVH();
+// Track page section views
+const sectionViewTracker = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            trackEvent('Section', 'View', entry.target.id);
+        }
+    });
+}, { threshold: 0.5 });
 
-// Handle back button
-window.addEventListener('popstate', () => {
-    // Maintain section state
-    const hash = window.location.hash.slice(1) || 'home';
-    if (document.getElementById(hash)) {
-        switchSection(hash);
-    }
-});
-
-// Set initial hash
-if (!window.location.hash) {
-    window.location.hash = 'home';
-}
+document.querySelectorAll('section').forEach(s => sectionViewTracker.observe(s));
