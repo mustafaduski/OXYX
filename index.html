@@ -3,300 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>OXYX FINANCE - The Future of Liquid Gold Finance</title>
+    <title>OXYX Finance — The Future of Liquid Gold</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
-<body class="bg-dark text-white">
-    <!-- Background Effects -->
-    <div class="gradient-bg"></div>
-    <div class="grid-pattern"></div>
-    
-    <!-- Main Container -->
-    <div class="app-container">
-        <!-- Header -->
-        <header class="glass-header">
-            <div class="header-content">
-                <div class="logo-container">
-                    <span class="logo-text">0XYX</span>
-                    <span class="logo-badge">FINANCE</span>
+<body>
+    <!-- Background Glow Effects -->
+    <div class="glow-gold"></div>
+    <div class="glow-cyan"></div>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="home" class="visible">
+            <div class="logo-wrap">
+                <div class="logo-emblem">
+                    <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="19" cy="19" r="14" stroke="url(#g1)" stroke-width="0.75"/>
+                        <path d="M12 19 C12 14.5 15.5 11 19 11 C22.5 11 24 13 24 16 C24 19 21 20.5 19 21 C17 21.5 14 23 14 26 C14 28 16 27.5 19 27.5 C22 27.5 25.5 26 26.5 23" stroke="url(#g2)" stroke-width="1.5" stroke-linecap="round"/>
+                        <circle cx="19" cy="11" r="1.5" fill="#C9A84C"/>
+                        <circle cx="26.5" cy="23" r="1.5" fill="#00E5FF"/>
+                        <defs>
+                            <linearGradient id="g1" x1="5" y1="5" x2="33" y2="33" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#C9A84C"/>
+                                <stop offset="100%" stop-color="#00E5FF" stop-opacity="0.5"/>
+                            </linearGradient>
+                            <linearGradient id="g2" x1="12" y1="11" x2="27" y2="28" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#C9A84C"/>
+                                <stop offset="50%" stop-color="#E8C87A"/>
+                                <stop offset="100%" stop-color="#00E5FF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 </div>
-                <button class="connect-wallet-btn">
-                    <i data-lucide="wallet" class="icon-sm"></i>
-                    <span>Connect</span>
-                </button>
+                <p class="logo-name">OXYX Finance</p>
             </div>
-        </header>
 
-        <!-- Main Content Sections -->
-        <main class="main-content" id="main-content">
-            <!-- Home Section -->
-            <section id="home" class="section active">
-                <!-- Hero Section -->
-                <div class="hero-section">
-                    <div class="hero-badge">
-                        <i data-lucide="sparkles" class="icon-xs"></i>
-                        The Future of Liquid Gold Finance
-                    </div>
-                    <h1 class="hero-title">
-                        <span class="gradient-text">0XYX</span>
-                        <span>FINANCE</span>
-                    </h1>
-                    <p class="hero-description">
-                        Deflationary. Transparent. Yield-generating. <span class="text-accent">0XY$</span> is engineered for the next era of decentralized value.
-                    </p>
-                    
-                    <!-- Stats Grid -->
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-header">
-                                <i data-lucide="gem" class="stat-icon"></i>
-                                <span class="stat-label">Market Cap</span>
-                            </div>
-                            <div class="stat-value">$--</div>
-                            <div class="stat-change positive">Loading...</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-header">
-                                <i data-lucide="droplets" class="stat-icon"></i>
-                                <span class="stat-label">Liquidity</span>
-                            </div>
-                            <div class="stat-value">$--</div>
-                            <div class="stat-change">Locked</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-header">
-                                <i data-lucide="users" class="stat-icon"></i>
-                                <span class="stat-label">Holders</span>
-                            </div>
-                            <div class="stat-value">--</div>
-                            <div class="stat-change">+-- 24h</div>
-                        </div>
-                    </div>
+            <h1 class="hero-title">The Future of<br><span>Liquid Gold</span><br>Finance</h1>
+            <p class="hero-sub">Deflationary. Transparent. Yield-generating. $OXY is engineered for the next era of decentralized value.</p>
 
-                    <!-- CTA Buttons -->
-                    <div class="cta-group">
-                        <button class="btn-primary">
-                            <i data-lucide="rocket" class="icon-md"></i>
-                            Buy 0XY$
-                        </button>
-                        <button class="btn-secondary">
-                            <i data-lucide="chart-line" class="icon-md"></i>
-                            Chart
-                        </button>
-                    </div>
+            <div class="ticker-card">
+                <span class="pulse-dot"></span>
+                <div>
+                    <div class="ticker-label">$OXY / USDT</div>
+                    <div style="font-size:10px; color:rgba(240,237,232,0.3); font-family:'DM Mono',monospace; margin-top:2px;">Live Price</div>
                 </div>
-            </section>
+                <div class="ticker-price" id="price">$0.08431</div>
+                <div class="ticker-change" id="change">+12.4%</div>
+            </div>
 
-            <!-- Stats Section -->
-            <section id="stats" class="section">
-                <div class="section-header">
-                    <h2 class="section-title">Live Analytics</h2>
-                    <p class="section-subtitle">Real-time protocol statistics</p>
-                </div>
-                
-                <!-- Detailed Stats -->
-                <div class="detailed-stats">
-                    <div class="stat-card large">
-                        <div class="stat-row">
-                            <span>Price</span>
-                            <span class="stat-highlight" id="oxyx-price">$0.00</span>
-                        </div>
-                        <div class="stat-row">
-                            <span>24h Change</span>
-                            <span class="stat-change positive" id="price-change">+0.00%</span>
-                        </div>
-                        <div class="stat-row">
-                            <span>24h Volume</span>
-                            <span id="volume">$0</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card large">
-                        <div class="stat-row">
-                            <span>Total Supply</span>
-                            <span>1,000,000</span>
-                        </div>
-                        <div class="stat-row">
-                            <span>Burned</span>
-                            <span class="text-accent">0</span>
-                        </div>
-                        <div class="stat-row">
-                            <span>Circulating</span>
-                            <span>1,000,000</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card large">
-                        <div class="stat-row">
-                            <span>Liquidity</span>
-                            <span>$--</span>
-                        </div>
-                        <div class="stat-row">
-                            <span>Holders</span>
-                            <span>--</span>
-                        </div>
-                        <div class="stat-row">
-                            <span>Transactions</span>
-                            <span>--</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <div class="cta-row">
+                <button class="btn-primary" onclick="document.getElementById('join').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
+                <button class="btn-secondary" onclick="document.getElementById('stats').scrollIntoView({behavior:'smooth'})">Tokenomics</button>
+            </div>
 
-            <!-- Roadmap Section -->
-            <section id="roadmap" class="section">
-                <div class="section-header">
-                    <h2 class="section-title">Roadmap</h2>
-                    <p class="section-subtitle">The journey ahead</p>
-                </div>
-                
-                <div class="roadmap-timeline">
-                    <div class="roadmap-item completed">
-                        <div class="roadmap-marker"></div>
-                        <div class="roadmap-content">
-                            <div class="roadmap-phase">
-                                <span class="phase-badge">Phase 1</span>
-                                <span class="phase-status">Completed</span>
-                            </div>
-                            <h3>Genesis</h3>
-                            <ul>
-                                <li>
-                                    <i data-lucide="check" class="icon-xs text-accent"></i>
-                                    Token Launch
-                                </li>
-                                <li>
-                                    <i data-lucide="check" class="icon-xs text-accent"></i>
-                                    Initial Liquidity
-                                </li>
-                                <li>
-                                    <i data-lucide="check" class="icon-xs text-accent"></i>
-                                    Community Building
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="roadmap-item active">
-                        <div class="roadmap-marker"></div>
-                        <div class="roadmap-content">
-                            <div class="roadmap-phase">
-                                <span class="phase-badge">Phase 2</span>
-                                <span class="phase-status">In Progress</span>
-                            </div>
-                            <h3>Expansion</h3>
-                            <ul>
-                                <li>
-                                    <i data-lucide="loader" class="icon-xs text-warning"></i>
-                                    DEX Listings
-                                </li>
-                                <li>
-                                    <i data-lucide="circle" class="icon-xs text-muted"></i>
-                                    Staking Protocol
-                                </li>
-                                <li>
-                                    <i data-lucide="circle" class="icon-xs text-muted"></i>
-                                    Governance Launch
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="roadmap-item">
-                        <div class="roadmap-marker"></div>
-                        <div class="roadmap-content">
-                            <div class="roadmap-phase">
-                                <span class="phase-badge">Phase 3</span>
-                                <span class="phase-status">Upcoming</span>
-                            </div>
-                            <h3>Ecosystem</h3>
-                            <ul>
-                                <li>
-                                    <i data-lucide="circle" class="icon-xs"></i>
-                                    Cross-chain Bridge
-                                </li>
-                                <li>
-                                    <i data-lucide="circle" class="icon-xs"></i>
-                                    Yield Optimizer
-                                </li>
-                                <li>
-                                    <i data-lucide="circle" class="icon-xs"></i>
-                                    Strategic Partnerships
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <div class="chain-strip">
+                <span class="chain-badge">ETH</span>
+                <span class="chain-badge">BSC</span>
+                <span class="chain-badge">BASE</span>
+                <span class="chain-badge">ARB</span>
+            </div>
+        </section>
 
-            <!-- Join Section -->
-            <section id="join" class="section">
-                <div class="section-header">
-                    <h2 class="section-title">Join The Community</h2>
-                    <p class="section-subtitle">Be part of the liquid gold revolution</p>
-                </div>
-                
-                <div class="social-grid">
-                    <a href="#" class="social-card">
-                        <i data-lucide="message-circle" class="social-icon telegram"></i>
-                        <span class="social-name">Telegram</span>
-                        <span class="social-meta">24/7 Active</span>
-                    </a>
-                    <a href="#" class="social-card">
-                        <i data-lucide="twitter" class="social-icon twitter"></i>
-                        <span class="social-name">Twitter / X</span>
-                        <span class="social-meta">@OXYXFinance</span>
-                    </a>
-                    <a href="#" class="social-card">
-                        <i data-lucide="book-open" class="social-icon docs"></i>
-                        <span class="social-name">Documentation</span>
-                        <span class="social-meta">Read the Docs</span>
-                    </a>
-                    <a href="#" class="social-card">
-                        <i data-lucide="github" class="social-icon github"></i>
-                        <span class="social-name">GitHub</span>
-                        <span class="social-meta">Open Source</span>
-                    </a>
-                    <a href="#" class="social-card">
-                        <i data-lucide="discord" class="social-icon discord"></i>
-                        <span class="social-name">Discord</span>
-                        <span class="social-meta">Join Chat</span>
-                    </a>
-                    <a href="#" class="social-card">
-                        <i data-lucide="medium" class="social-icon medium"></i>
-                        <span class="social-name">Medium</span>
-                        <span class="social-meta">Latest News</span>
-                    </a>
-                </div>
-            </section>
-        </main>
+        <!-- STATS / TOKENOMICS SECTION -->
+        <section id="stats">
+            <div class="section-header">
+                <div class="section-tag">Tokenomics</div>
+                <h2 class="section-title">Built for<br>Scarcity</h2>
+            </div>
 
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <button class="nav-item active" data-section="home">
-                <i data-lucide="home"></i>
-                <span>Home</span>
-            </button>
-            <button class="nav-item" data-section="stats">
-                <i data-lucide="bar-chart-3"></i>
-                <span>Stats</span>
-            </button>
-            <button class="nav-item" data-section="roadmap">
-                <i data-lucide="map"></i>
-                <span>Roadmap</span>
-            </button>
-            <button class="nav-item" data-section="join">
-                <i data-lucide="users"></i>
-                <span>Join</span>
-            </button>
-        </nav>
-    </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Supply</div>
+                    <div class="stat-value"><span class="gold">1B</span></div>
+                    <div class="stat-sub">$OXY Tokens</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Burned</div>
+                    <div class="stat-value" id="burned">247M</div>
+                    <div class="stat-sub" style="color:#EF4444; font-size:10px;">🔥 Deflationary</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Circulating</div>
+                    <div class="stat-value"><span class="cyan">753M</span></div>
+                    <div class="stat-sub">Liquid Supply</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Market Cap</div>
+                    <div class="stat-value"><span class="gold">$63.4M</span></div>
+                    <div class="stat-sub">Fully diluted</div>
+                </div>
+                <div class="stat-card full">
+                    <div class="stat-label">Staking APY</div>
+                    <div class="stat-value" style="font-size:32px;"><span class="gold">24.7%</span></div>
+                    <div class="stat-sub">Annual yield on locked $OXY</div>
+                </div>
+            </div>
+
+            <div class="token-card">
+                <div class="token-title">Fee Structure & Utility</div>
+
+                <div class="token-row">
+                    <div class="token-row-label">
+                        <div class="token-icon gold-bg">💰</div>
+                        Buy Tax
+                    </div>
+                    <div class="token-row-val">2%</div>
+                </div>
+                <div class="token-row">
+                    <div class="token-row-label">
+                        <div class="token-icon red-bg">🔥</div>
+                        Sell → Burn
+                    </div>
+                    <div class="token-row-val">3%</div>
+                </div>
+                <div class="token-row">
+                    <div class="token-row-label">
+                        <div class="token-icon cyan-bg">⚡</div>
+                        Yield Rewards
+                    </div>
+                    <div class="token-row-val">1%</div>
+                </div>
+
+                <div class="dist-bar">
+                    <div class="dist-bar-label">Token Distribution</div>
+                    <div class="bar-track">
+                        <div class="bar-seg liq"></div>
+                        <div class="bar-seg pub"></div>
+                        <div class="bar-seg team"></div>
+                        <div class="bar-seg reserve"></div>
+                    </div>
+                    <div class="bar-legend">
+                        <div class="legend-item"><div class="legend-dot" style="background:var(--cyan)"></div>Liquidity 40%</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Public 30%</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#8B6914"></div>Team 15%</div>
+                        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.3)"></div>Reserve 15%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROADMAP SECTION -->
+        <section id="roadmap">
+            <div class="section-header">
+                <div class="section-tag">Roadmap</div>
+                <h2 class="section-title">The Path<br>Forward</h2>
+            </div>
+
+            <div class="timeline">
+                <div class="phase">
+                    <div class="phase-node done">
+                        <div class="node-inner"></div>
+                    </div>
+                    <div class="phase-header">
+                        <span class="phase-q gold">Q4 2024</span>
+                        <span class="phase-badge done">Complete</span>
+                    </div>
+                    <div class="phase-title">Genesis & Foundation</div>
+                    <ul class="phase-items">
+                        <li class="done-item">Smart contract deployment & audit</li>
+                        <li class="done-item">Liquidity bootstrap (ETH + BSC)</li>
+                        <li class="done-item">CoinGecko & CMC listing</li>
+                        <li class="done-item">Community seed round (1,200 holders)</li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-node active">
+                        <div class="node-inner"></div>
+                    </div>
+                    <div class="phase-header">
+                        <span class="phase-q gold">Q1 2025</span>
+                        <span class="phase-badge live">In Progress</span>
+                    </div>
+                    <div class="phase-title">Protocol Launch</div>
+                    <ul class="phase-items">
+                        <li class="done-item">Staking v1 — Live</li>
+                        <li class="done-item">Yield dashboard beta</li>
+                        <li>CEX negotiations (Tier 2)</li>
+                        <li>Governance token integration</li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-node upcoming">
+                        <div class="node-inner"></div>
+                    </div>
+                    <div class="phase-header">
+                        <span class="phase-q cyan">Q2 2025</span>
+                        <span class="phase-badge next">Next</span>
+                    </div>
+                    <div class="phase-title">Cross-Chain Expansion</div>
+                    <ul class="phase-items">
+                        <li>Base + Arbitrum bridge</li>
+                        <li>OXY Swap launch</li>
+                        <li>Mobile app (iOS + Android)</li>
+                        <li>Institutional liquidity program</li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-node upcoming" style="border-color:rgba(255,255,255,0.1);">
+                        <div class="node-inner" style="background:rgba(255,255,255,0.1);"></div>
+                    </div>
+                    <div class="phase-header">
+                        <span class="phase-q dim">Q3–Q4 2025</span>
+                    </div>
+                    <div class="phase-title" style="color:var(--muted);">OXY Finance V2</div>
+                    <ul class="phase-items">
+                        <li>Perpetuals & derivatives</li>
+                        <li>AI-powered yield optimization</li>
+                        <li>DAO governance full launch</li>
+                        <li>Top-10 CEX listing target</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- WAITLIST SECTION -->
+        <section id="join">
+            <div class="section-header">
+                <div class="section-tag">Early Access</div>
+                <h2 class="section-title">Reserve Your<br>Position</h2>
+            </div>
+
+            <div class="waitlist-card">
+                <div class="waitlist-count">
+                    <div class="count-dot"></div>
+                    <span class="count-text" id="waitlist-count">4,219 wallets registered</span>
+                </div>
+
+                <div id="form-wrap">
+                    <div class="input-wrap">
+                        <input
+                            type="text"
+                            class="wallet-input"
+                            id="wallet"
+                            placeholder="0x... wallet address"
+                            autocomplete="off"
+                            spellcheck="false"
+                        />
+                    </div>
+                    <div class="input-wrap">
+                        <input
+                            type="email"
+                            class="wallet-input"
+                            id="email"
+                            placeholder="Email for updates (optional)"
+                        />
+                    </div>
+                    <button class="submit-btn" onclick="handleSubmit()">
+                        Secure My Spot →
+                    </button>
+                </div>
+
+                <div class="success-msg" id="success">
+                    ✦ &nbsp; You're on the list. We'll notify you first.
+                </div>
+
+                <div class="waitlist-note">
+                    Early registrants receive 2× multiplier on genesis staking rewards.<br>
+                    No funds required. Non-custodial. Fully permissionless.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <div class="nav-dock">
+            <a class="nav-item active" href="#home">
+                <span class="nav-icon">◈</span>
+                <span class="nav-label">Home</span>
+            </a>
+            <a class="nav-item" href="#stats">
+                <span class="nav-icon">◎</span>
+                <span class="nav-label">Stats</span>
+            </a>
+            <a class="nav-item" href="#roadmap">
+                <span class="nav-icon">◉</span>
+                <span class="nav-label">Roadmap</span>
+            </a>
+            <a class="nav-item" href="#join">
+                <span class="nav-icon">✦</span>
+                <span class="nav-label">Join</span>
+            </a>
+        </div>
+    </nav>
 
     <script src="script.js"></script>
-    <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
-    </script>
 </body>
 </html>
